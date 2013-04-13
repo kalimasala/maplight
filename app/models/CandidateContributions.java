@@ -4,6 +4,7 @@ import play.*;
 import play.db.jpa.*;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
+import play.mvc.Scope.Params;
 import play.templates.JavaExtensions;
 
 import javax.persistence.*;
@@ -164,11 +165,21 @@ public class CandidateContributions extends Model {
 		}
 	}
 
-	public static List<CandidateContributions> get(
-			String recipient,
-			String donor,
-			String date_start,
-			String date_end) {
+	
+	public static String getOrEmpty(Params params, String key) {
+		return getOrDefault(params, key, "");
+	}
+
+	public static String getOrDefault(Params params, String key, String default_) {
+		String obj = params.get(key);
+		return obj == null ? default_ : obj;
+	}
+
+	public static List<CandidateContributions> get(Params params) {
+		String recipient = getOrEmpty(params, "recipient");
+		String donor = getOrEmpty(params, "donor");
+		String date_start = getOrEmpty(params, "date-start");
+		String date_end = getOrEmpty(params, "date-end");
 		List<String> wheres = new LinkedList<String>();
     	if (!recipient.isEmpty()) {
     		wheres.add("RecipientCandidateNameNormalized = " + recipient);
@@ -189,5 +200,10 @@ public class CandidateContributions extends Model {
    			sql.append(JavaExtensions.join(wheres, ", "));
     	}
     	return find(sql.toString()).fetch();
+	}
+
+	public static Object get() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

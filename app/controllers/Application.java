@@ -40,13 +40,13 @@ public class Application extends Controller {
     }
     
 
-  public static void byDonors(String from, String to, String date_start, String date_end) {
-	if (from == null) from = "";
+  public static void byDonors(String donor, String to, String date_start, String date_end) {
+	if (donor == null) donor = "";
 	if (to == null) to = "";
-  	if (from.isEmpty() && to.isEmpty()) {
+  	if (donor.isEmpty() && to.isEmpty()) {
 		flash.error("both recipient and donor cannot be empty");
 		return;
 	}
-	renderTemplate("CandidateContributions.html", CandidateContributions.get(from, to, date_start, date_end));
+	renderTemplate("CandidateContributions.html", CandidateContributions.get(donor, to, date_start, date_end));
   }
 }

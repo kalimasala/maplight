@@ -100,12 +100,12 @@ public class CandidateContributions extends Model {
 		return find("SELECT DISTINCT RecipientCandidateNameNormalized FROM CandidateContributions").fetch();
 	}
 	
-	public static List<CandidateContributions> findByRecipientDonar(String recipient, String donar, int year) {
+	public static List<CandidateContributions> findByRecipientdonor(String recipient, String donor, int year) {
 		if (year == 0)
-			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalized", recipient, donar).fetch();
+			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalized", recipient, donor).fetch();
 		else {
 			final String y = new Integer(year).toString();
-			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donar, y).fetch();			
+			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donor, y).fetch();			
 		}
 	}
 	
@@ -126,9 +126,9 @@ public class CandidateContributions extends Model {
 		return find("SELECT DISTINCT DonorOrganization FROM CandidateContributions").fetch();
 	}
 
-	public static List<CandidateContributions> findByRecipientDonorYear(String recipient, String donar, int year) {
+	public static List<CandidateContributions> findByRecipientDonorYear(String recipient, String donor, int year) {
 		final String y = new Integer(year).toString();
-		return find("byRecipientNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donar, y).fetch();
+		return find("byRecipientNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donor, y).fetch();
 	}
 
 	public static List<CandidateContributions> findByRecipient(String recipient, int year) {
@@ -138,16 +138,20 @@ public class CandidateContributions extends Model {
 		else {
 			final String y = new Integer(year).toString();
 			return find("byRecipientCandidateNameNormalizedAndElectionCycle", recipient, y).fetch();
-			
 		}
 	}
 
-	public static List<CandidateContributions> findByDonor(String donar, int year) {
+	public static List<CandidateContributions> findByDonor(String donor, int year) {
+		donor += "%";
 		if (year == 0)
-			return find("byDonorNameNormalized", donar).fetch();
+			return find("select c from CandidateContributions c where lower(c.DonorNameNormalized) like ?" +
+						"or lower(c.DonorOrganization) like ?", donor, donor
+					).fetch();
 		else {
 			final String y = new Integer(year).toString();
-			return find("byDonorNameNormalizedAndElectionCycle", donar, y).fetch();			
+			return find("select c from CandidateContributions c where ( lower(c.DonorNameNormalized) like ?" +
+					"or lower(c.DonorOrganization) like ?) and c.ElectionCycle = ?", donor, donor, y
+				).fetch();
 		}
 	}
 

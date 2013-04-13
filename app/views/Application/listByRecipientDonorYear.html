@@ -41,9 +41,10 @@
 #{/list}
 </table>
 
-#{form @Application.downloadData(), method:'GET' }
+#{form @Application.listByRecipientDonorYear(), method:'GET' }
 <input type="hidden" name="donor" value="${donor}" />
 <input type="hidden" name="recipient" value="${recipient}" />
-
-<input type="submit" name="Download CSV File" value="" class="button">
+<input type="hidden" name="year" value="${year}" />
+<input type="hidden" name="download" value="true">
+<input type="submit" name="dbutton" value="Download CSV File" class="btn btn-large btn-primary">
 #{/form}

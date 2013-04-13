@@ -13,7 +13,8 @@ public class Application extends Controller {
         render();
     }
     
-    public static void listByRecipientDonorYear(String recipient, String donor, int year) {
+    public static void listByRecipientDonorYear(String recipient, String donor, int year,
+    		boolean download) {
     	recipient = recipient.toLowerCase();
     	donor = donor.toLowerCase();
     	if (recipient.isEmpty() && donor.isEmpty()) {
@@ -29,12 +30,15 @@ public class Application extends Controller {
     	else {
     		cc = CandidateContributions.findByDonor(donor, year);
     	}
-    	render(cc);
+    	if (download) {
+    		response.setHeader("Content-Disposition", "attachment; filename=download.csv");
+    		renderTemplate("Application/listByRecipientDonorYear.csv", cc);
+    	}
+    	else {
+        	render(cc, recipient, donor, year);
+    	}
     }
     
-    public static void downloadData() {
-    	
-    }
 
     public static void byDonor(String from, String to, int year) {
     }

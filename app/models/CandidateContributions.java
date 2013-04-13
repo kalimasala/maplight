@@ -100,15 +100,6 @@ public class CandidateContributions extends Model {
 		return find("SELECT DISTINCT RecipientCandidateNameNormalized FROM CandidateContributions").fetch();
 	}
 	
-	public static List<CandidateContributions> findByRecipientdonor(String recipient, String donor, int year) {
-		if (year == 0)
-			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalized", recipient, donor).fetch();
-		else {
-			final String y = new Integer(year).toString();
-			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donor, y).fetch();			
-		}
-	}
-	
 	//TODO(rkj): cache this
 	public static List<JsonObject> getCurrentCandidates() {
 		String url = "http://data.maplight.org/FEC/active_incumbents.json";
@@ -126,18 +117,35 @@ public class CandidateContributions extends Model {
 		return find("SELECT DISTINCT DonorOrganization FROM CandidateContributions").fetch();
 	}
 
-	public static List<CandidateContributions> findByRecipientDonorYear(String recipient, String donor, int year) {
-		final String y = new Integer(year).toString();
-		return find("byRecipientNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donor, y).fetch();
+
+	public static List<CandidateContributions> findByRecipientDonor(String recipient, String donor, int year) {
+		donor += "%";
+		if (year == 0) 
+			return find("select c from CandidateContributions c where (lower(c.DonorNameNormalized) like ?" +
+						"or lower(c.DonorOrganization) like ?) and lower(c.RecipientCandidateNameNormalized) = ?", 
+						donor, donor, recipient
+					).fetch();
+		else {
+			final String y = new Integer(year).toString();
+			Logger.info("donor = %s, r = %s, year = %s", donor, recipient, y);
+			return find("select c from CandidateContributions c where (lower(c.DonorNameNormalized) like ?" +
+					"or lower(c.DonorOrganization) like ?) and lower(c.RecipientCandidateNameNormalized) = ? " +
+					"and c.ElectionCycle = ?", 
+					donor, donor, recipient, y
+				).fetch();
+		}
 	}
 
 	public static List<CandidateContributions> findByRecipient(String recipient, int year) {
 		if (year == 0) {
-			return find("byRecipientCandidateNameNormalized", recipient).fetch();			
+			return find("select c from CandidateContributions c where lower(c.RecipientCandidateNameNormalized) = ?", 
+					recipient).fetch();			
 		}
 		else {
 			final String y = new Integer(year).toString();
-			return find("byRecipientCandidateNameNormalizedAndElectionCycle", recipient, y).fetch();
+			return find("select c from CandidateContributions c where "+
+						"lower(c.RecipientCandidateNameNormalized) = ? and ElectionCycle = ?", 
+					recipient, y).fetch();			
 		}
 	}
 

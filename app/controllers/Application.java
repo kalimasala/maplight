@@ -22,7 +22,7 @@ public class Application extends Controller {
 		}
     	List <CandidateContributions> cc = null;
     	if (!recipient.isEmpty() && !donor.isEmpty())
-    		cc = CandidateContributions.findByRecipientdonor(recipient, donor, year);
+    		cc = CandidateContributions.findByRecipientDonor(recipient, donor, year);
     	else if (!recipient.isEmpty()) {
     		cc = CandidateContributions.findByRecipient(recipient, year);
     	} 

@@ -15,4 +15,14 @@ $(function() {
       $(queryTypeRefine[$el.val()]).show();
     }
   });
+
+  var candidateNames = [
+    "George Bush",
+    "John Kerry",
+    "Al Gore",
+    "Bill Clinton"
+  ];
+  $(".autocomplete-candidate").autocomplete({
+    source: candidateNames
+  });
 });

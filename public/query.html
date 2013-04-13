@@ -6,9 +6,17 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
   <script type="text/javascript" src="/public/js/maplight.js"></script>
-  <script type="text/javascript" src="/public/js/states.js"></script>
-</head>
+  <script type="text/javascript" src="/public/js/locations.js"></script>
 
+  <style>
+    .ui-autocomplete-category {
+      font-weight: bold;
+      padding: .2em .4em;
+      margin: .8em 0 .2em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
 
 <body>
 
@@ -62,25 +70,12 @@
 
     <div class="refine-geographic" style="display: none;">
       <div>
-        <input type="radio" id="refine-geographic-from-state" name="refine-geographic" data-selector=".refine-geographic-from-state-data"/>
-        <label for="refine-geographic-from-state">
-          From state
-          <input type="text" class="refine-geographic-from-state-data" data-type="from-state" autocomplete-type="state" placeholder="State"/>
-        </label>
+        <label for="refine-geographic-from">From city or state</label>
+        <input type="text" id="refine-geographic-from" autocomplete-type="location" placeholder="City or State"/>
       </div>
       <div>
-        <input type="radio" id="refine-geographic-from-city" name="refine-geographic" data-selector=".refine-geographic-from-city-data"/>
-        <label for="refine-geographic-from-city">
-          From city
-          <input type="text" class="refine-geographic-from-city-data" data-type="from-city" placeholder="City"/>
-        </label>
-      </div>
-      <div>
-        <input type="radio" id="refine-geographic-to-state" name="refine-geographic" data-selector=".refine-geographic-to-state-data"/>
-        <label for="refine-geographic-to-state">
-          To state
-          <input type="text" class="refine-geographic-to-state-data" data-type="to-state" autocomplete-type="state" placeholder="State"/>
-        </label>
+        <label for="refine-geographic-to">To city or state</label>
+        <input type="text" id="refine-geographic-to" autocomplete-type="location" placeholder="City or State"/>
       </div>
     </div>
 

@@ -69,7 +69,23 @@ $(function() {
   // Autocomplete multiple, courtesy of http://jqueryui.com/autocomplete/#multiple
   enableMultiAutocomplete($("[autocomplete-type=candidate]"), candidateNames);
 
-  enableMultiAutocomplete($("[autocomplete-type=state]"), window.maplight.states);
+  $.widget( "custom.catcomplete", $.ui.autocomplete, {
+    _renderMenu: function( ul, items ) {
+      var that = this,
+        currentCategory = "";
+      $.each( items, function( index, item ) {
+        if ( item.category != currentCategory ) {
+          ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+          currentCategory = item.category;
+        }
+        that._renderItemData( ul, item );
+      });
+    }
+  });
+  $("[autocomplete-type=location]").catcomplete({
+      delay: 0,
+      source: window.maplight.locations
+  });
 
   $(".run-query").click(function() {
     $(".run-query-error").hide();
@@ -101,14 +117,9 @@ $(function() {
       },
       geographic: {
         data: function() {
-          var data = $("input[name=refine-geographic]:checked").attr("data-selector");
-          if (!data) {
-            showError("Please select From: or To:");
-            return;
-          }
           return {
-            data: $(data).val(),
-            type: $(data).attr("data-type")
+            from: $("#refine-geographic-from").val(),
+            to: $("#refine-geographic-to").val()
           };
         }
       }

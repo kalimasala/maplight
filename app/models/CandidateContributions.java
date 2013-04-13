@@ -182,28 +182,29 @@ public class CandidateContributions extends Model {
 		String date_end = getOrEmpty(params, "date-end");
 		List<String> wheres = new LinkedList<String>();
     	if (!recipient.isEmpty()) {
-    		wheres.add("RecipientCandidateNameNormalized = " + recipient);
+    		if (recipient.equals("__anyone")) {
+    			// nothing
+    		} else if (recipient.equals("__curent")) {
+    			
+    		} else {
+    			wheres.add("lower(RecipientCandidateNameNormalized) = '" + recipient.toLowerCase() + "'");
+    		}
     	}
     	if (!donor.isEmpty()) {
-    		wheres.add("DonorNameNormalized = " + donor);
+    		wheres.add("DonorNameNormalized = '" + donor + "'");
     	}
     	if (!date_start.isEmpty()) {
-    		wheres.add("TransactionDate >= " + date_start);
+    		wheres.add("TransactionDate >= '" + date_start + "'");
     	}
     	if (!date_end.isEmpty()) {
-    		wheres.add("TransactionDate <= " + date_end);
+    		wheres.add("TransactionDate <= '" + date_end + "'");
     	}
     	StringBuffer sql = new StringBuffer();
-    	sql.append("SELECT * FROM CandidateContributions");
+    	sql.append("SELECT c FROM CandidateContributions c ");
     	if (wheres.size() > 0) {
     		sql.append("\nWHERE ");
    			sql.append(JavaExtensions.join(wheres, ", "));
     	}
     	return find(sql.toString()).fetch();
-	}
-
-	public static Object get() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

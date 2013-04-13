@@ -39,14 +39,7 @@ public class Application extends Controller {
     	}
     }
     
-
-  public static void byDonors(String donor, String to, String date_start, String date_end) {
-	if (donor == null) donor = "";
-	if (to == null) to = "";
-  	if (donor.isEmpty() && to.isEmpty()) {
-		flash.error("both recipient and donor cannot be empty");
-		return;
-	}
-	renderTemplate("CandidateContributions.html", CandidateContributions.get(donor, to, date_start, date_end));
+  public static void byDonors() {
+	renderTemplate("Application/CandidateContributions.html", CandidateContributions.get(params));
   }
 }

@@ -2,8 +2,14 @@ package models;
 
 import play.*;
 import play.db.jpa.*;
+import play.libs.WS;
+import play.libs.WS.HttpResponse;
 
 import javax.persistence.*;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import java.util.*;
 
 @Entity
@@ -91,7 +97,20 @@ public class CandidateContributions extends Model {
 	public String UpdateTimestamp;
 
 	public static List<String> getCandidatesNames() {
-		return find("SELECT DISTINCT c.RecipientNameNormalized FROM CandidateContributions").fetch();
+		return find("SELECT DISTINCT RecipientNameNormalized FROM CandidateContributions").fetch();
+	}
+	
+	//TODO(rkj): cache this
+	public static List<String> getCurrentCandidates() {
+		String url = "http://data.maplight.org/FEC/active_incumbents.json";
+		HttpResponse res = WS.url(url).get();
+		JsonElement json = res.getJson();
+		List<String> ret = new LinkedList<String>();
+		for (JsonElement el : json.getAsJsonArray()) {
+			JsonObject obj = el.getAsJsonObject();
+			ret.add(obj.get("display_name").getAsString());
+		}
+		return ret;
 	}
 	
 	public static List<String> getCompaniesNames() {

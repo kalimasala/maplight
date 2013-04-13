@@ -7,10 +7,17 @@ import play.mvc.Controller;
 
 public class AutoComplete extends Controller {
 	public static void candidates() {
-		renderJSON(CandidateContributions.getCandidatesNames());
+		List<String> candidatesNames = CandidateContributions.getCandidatesNames();
+		candidatesNames.add("All");
+		candidatesNames.add("All Current");
+		renderJSON(candidatesNames);
 	}
 	
 	public static void companies() {
 		renderJSON(CandidateContributions.getCompaniesNames());
+	}
+	
+	public static void currentCandidates() {
+		renderJSON(CandidateContributions.getCurrentCandidates());	
 	}
 }

@@ -37,35 +37,35 @@
       <h3>Filters</h3>
 
       <h4>Donor</h4>
-      <div class="filter-donor-from control-group">
+      <div class="filter-donor control-group">
         <div class="controls">
-          <input type="text" id="filter-donor-from" placeholder="Organization or individual"/>
+          <input type="text" id="filter-donor" placeholder="Organization or individual"/>
         </div>
       </div>
 
       <h4>Recipient(s)</h4>
-      <div class="filter-donor-to control-group">
+      <div class="filter-recipient control-group">
         <div>
-          <input type="radio" id="filter-donor-to-anyone" name="filter-donor-to" data-selector=".filter-donor-to-anyone-data"/>
-          <label for="filter-donor-to-anyone" class="control-label radio inline">
+          <input type="radio" id="filter-recipient-anyone" name="filter-recipient" data-selector=".filter-recipient-anyone-data"/>
+          <label for="filter-recipient-anyone" class="control-label radio inline">
             Anyone
-            <input type="hidden" class="filter-donor-to-anyone-data" value="__anyone"/>
+            <input type="hidden" class="filter-recipient-anyone-data" value="__anyone"/>
           </label>
         </div>
         <div>
-          <input type="radio" id="filter-donor-to-single" name="filter-donor-to" data-selector=".filter-donor-to-single-data"/>
-          <label for="filter-donor-to-single" class="control-label radio inline">
+          <input type="radio" id="filter-recipient-single" name="filter-recipient" data-selector=".filter-recipient-single-data"/>
+          <label for="filter-recipient-single" class="control-label radio inline">
             These candidates:
             <div>
-              <textarea class="filter-donor-to-single-data" autocomplete-type="candidate" placeholder="Candidate names"></textarea>
+              <textarea class="filter-recipient-single-data" autocomplete-type="candidate" placeholder="Candidate names"></textarea>
             </div>
           </label>
         </div>
         <div>
-          <input type="radio" id="filter-donor-to-all" name="filter-donor-to" data-selector=".filter-donor-to-all-data"/>
-          <label for="filter-donor-to-all" class="control-label radio inline">
+          <input type="radio" id="filter-recipient-all" name="filter-recipient" data-selector=".filter-recipient-all-data"/>
+          <label for="filter-recipient-all" class="control-label radio inline">
             All current candidates
-            <input type="hidden" class="filter-donor-to-all-data" value="__current"/>
+            <input type="hidden" class="filter-recipient-all-data" value="__current"/>
           </label>
         </div>
       </div>
@@ -85,8 +85,12 @@
       <h4>Time</h4>
       <div class="filter-date control-group">
         <div>
-          <label for="filter-year">Year</label>
-          <input type="text" id="filter-year" placeholder="2012, 2014, etc."/>
+          <label for="filter-date-start">Start year</label>
+          <input type="date" id="filter-date-start" placeholder="Start date"/>
+        </div>
+        <div>
+          <label for="filter-date-end">End year</label>
+          <input type="date" id="filter-date-end" placeholder="End date"/>
         </div>
       </div>
 
@@ -96,10 +100,8 @@
 
     </form>
 
-  </div>
-
   <div class="span8">
-    <div class="data-table"/>
+    <div class="query-results"/>
   </div>
 
 </div>

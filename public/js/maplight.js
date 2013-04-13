@@ -124,22 +124,24 @@ $(function() {
 
     var readData = function(radioGroupName) {
       var toData = $("input[name=" + radioGroupName + "]:checked").attr("data-selector");
-      return toData && $(toData).val();
+      return toData && $(toData).val() || "";
     };
 
     var requestData = {
-      "donor-from": $("#filter-donor-from").val(),
-      "donor-to": readData("filter-donor-to"),
+      "donor": $("#filter-donor").val(),
+      "recipient": readData("filter-recipient"),
       "location-from": $("#filter-location-from").val(),
       "location-to": $("#filter-location-to").val(),
-      "year": $("#filter-year").val()
+      "date-start": $("#filter-date-start").val(),
+      "date-end": $("#filter-date-end").val()
     };
 
     console.log(requestData);
-    $.get(
+    $.post(
       "/api/donor",
       requestData
     ).done(function(resp) {
+      $(".query-results").html(resp);
       $("#data-table").dataTable();
     }).fail(function() {
       showError("Error while fetching data!");

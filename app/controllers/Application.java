@@ -21,9 +21,9 @@ public class Application extends Controller {
     		index();
 		}
     	List <CandidateContributions> cc = null;
-    	if (!recipient.isEmpty() && !donor.isEmpty())
-    		cc = CandidateContributions.findByRecipientDonorYear(recipient, donor, year);
-    	else if (!recipient.isEmpty()) {
+    	if (!recipient.isEmpty() && !donor.isEmpty()) {
+    		cc = CandidateContributions.findByRecipientDonor(recipient, donor, year);
+        } else if (!recipient.isEmpty()) {
     		cc = CandidateContributions.findByRecipient(recipient, year);
     	} 
     	else {

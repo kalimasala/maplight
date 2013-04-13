@@ -150,5 +150,13 @@ $(function() {
     };
 
     console.log(queryApis[queryType].data());
+    $.post(
+      queryTypes[queryType].url,
+      queryApis[queryType].data()
+    ).done(function(resp) {
+      console.log(resp);
+    }).fail(function() {
+      showError("Error while fetching data!");
+    });
   });
 });

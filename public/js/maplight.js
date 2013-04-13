@@ -1,24 +1,24 @@
 $(function() {
-  var queryTypes = {
-    donor: {
-      selector: ".refine-donor",
-      url: "/api/donor"
-    },
-    geographic: {
-      selector: ".refine-geographic",
-      url: "/api/geographic"
-    }
-  };
+  // var queryTypes = {
+  //   donor: {
+  //     selector: ".refine-donor",
+  //     url: "/api/donor"
+  //   },
+  //   geographic: {
+  //     selector: ".refine-geographic",
+  //     url: "/api/geographic"
+  //   }
+  // };
 
-  $("input[name=query-type]").change(function() {
-    var $el = $(this);
+  // $("input[name=query-type]").change(function() {
+  //   var $el = $(this);
 
-    $(".refine").children().hide();
+  //   $(".refine").children().hide();
 
-    if ($el.is(":checked")) {
-      $(queryTypes[$el.val()].selector).show();
-    }
-  });
+  //   if ($el.is(":checked")) {
+  //     $(queryTypes[$el.val()].selector).show();
+  //   }
+  // });
 
   var enableMultiAutocomplete = function($el, values) {
     var split = function( val ) {
@@ -95,40 +95,52 @@ $(function() {
       $(".run-query-error").show();
     };
 
-    var queryType = $("input[name=query-type]:checked").val();
-    if (!queryType) {
-      showError("Please select a query type.");
-      return;
-    }
+    // var queryType = $("input[name=query-type]:checked").val();
+    // if (!queryType) {
+    //   showError("Please select a query type.");
+    //   return;
+    // }
 
-    var queryApis = {
-      donor: {
-        data: function() {
-          var toData = $("input[name=refine-donor-to]:checked").attr("data-selector");
-          if (!toData) {
-            showError("Please select To:");
-            return;
-          }
-          return {
-            from: $(".refine-donor-from").val(),
-            to: $(toData).val()
-          };
-        }
-      },
-      geographic: {
-        data: function() {
-          return {
-            from: $("#refine-geographic-from").val(),
-            to: $("#refine-geographic-to").val()
-          };
-        }
-      }
+    // var queryApis = {
+    //   donor: {
+    //     data: function() {
+    //       var toData = $("input[name=refine-donor-to]:checked").attr("data-selector");
+    //       if (!toData) {
+    //         showError("Please select To:");
+    //         return;
+    //       }
+    //       return {
+    //         from: $(".refine-donor-from").val(),
+    //         to: $(toData).val()
+    //       };
+    //     }
+    //   },
+    //   geographic: {
+    //     data: function() {
+    //       return {
+    //         from: $("#refine-geographic-from").val(),
+    //         to: $("#refine-geographic-to").val()
+    //       };
+    //     }
+    //   }
+    // };
+
+    var readData = function(radioGroupName) {
+      var toData = $("input[name=" + radioGroupName + "]:checked").attr("data-selector");
+      return toData && $(toData).val();
     };
 
-    console.log(queryApis[queryType].data());
+    var requestData = {
+      "donor-from": $(".refine-donor-from").val(),
+      "donor-to": readData("refine-donor-to"),
+      "location-from": $("#refine-geographic-from").val(),
+      "location-to": $("#refine-geographic-to").val()
+    };
+
+    console.log(requestData);
     $.post(
-      queryTypes[queryType].url,
-      queryApis[queryType].data()
+      "/api/donor",
+      requestData
     ).done(function(resp) {
       console.log(resp);
     }).fail(function() {

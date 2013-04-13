@@ -20,65 +20,50 @@
 
 <body>
 
-  <h3>Select a type of query:</h3>
+  <h3>Filters</h3>
+
+  <h4>Donor</h4>
+  <div class="filter-donor">
+    <span>From:</span>
+    <input type="text" class="refine-donor-from" placeholder="Donor (company, organization, or individual)"/>
+  </div>
+
+  <h4>Recipient(s)</h4>
   <div>
+    <span>To:</span>
     <div>
-      <input type="radio" id="query-type-donor" name="query-type" value="donor"/>
-      <label for="query-type-donor">Contributions by donors</label>
+      <input type="radio" id="refine-donor-to-anyone" name="refine-donor-to" data-selector=".refine-donor-to-anyone-data"/>
+      <label for="refine-donor-to-anyone">
+        Anyone
+        <input type="hidden" class="refine-donor-to-anyone-data" value="__anyone"/>
+      </label>
     </div>
     <div>
-      <input type="radio" id="query-type-geographic" name="query-type" value="geographic"/>
-      <label for="query-type-geographic">Contributions by geographic location</label>
+      <input type="radio" id="refine-donor-to-single" name="refine-donor-to" data-selector=".refine-donor-to-single-data"/>
+      <label for="refine-donor-to-single">
+        These candidates:
+        <input type="text" class="refine-donor-to-single-data" autocomplete-type="candidate" placeholder="Candidate name"/>
+      </label>
+    </div>
+    <div>
+      <input type="radio" id="refine-donor-to-all" name="refine-donor-to" data-selector=".refine-donor-to-all-data"/>
+      <label for="refine-donor-to-all">
+        All current candidates
+        <input type="hidden" class="refine-donor-to-all-data" value="__current"/>
+      </label>
     </div>
   </div>
 
-  <h3>Refine query:</h3>
-  <div class="refine">
-
-    <span>Please select a query type above.</span>
-
-    <div class="refine-donor" style="display: none;">
-      <div>
-        <span>From:</span>
-        <input type="text" class="refine-donor-from" placeholder="Donor (company, organization, or individual)"/>
-      </div>
-      <div>
-        <span>To:</span>
-        <div>
-          <input type="radio" id="refine-donor-to-anyone" name="refine-donor-to" data-selector=".refine-donor-to-anyone-data"/>
-          <label for="refine-donor-to-anyone">
-            Anyone
-            <input type="hidden" class="refine-donor-to-anyone-data" value="__anyone"/>
-          </label>
-        </div>
-        <div>
-          <input type="radio" id="refine-donor-to-single" name="refine-donor-to" data-selector=".refine-donor-to-single-data"/>
-          <label for="refine-donor-to-single">
-            These candidates:
-            <input type="text" class="refine-donor-to-single-data" autocomplete-type="candidate" placeholder="Candidate name"/>
-          </label>
-        </div>
-        <div>
-          <input type="radio" id="refine-donor-to-all" name="refine-donor-to" data-selector=".refine-donor-to-all-data"/>
-          <label for="refine-donor-to-all">
-            All current candidates
-            <input type="hidden" class="refine-donor-to-all-data" value="__current"/>
-          </label>
-        </div>
-      </div>
+  <h4>Location</h4>
+  <div class="filter-geographic">
+    <div>
+      <label for="refine-geographic-from">From city or state</label>
+      <input type="text" id="refine-geographic-from" autocomplete-type="location" placeholder="City or State"/>
     </div>
-
-    <div class="refine-geographic" style="display: none;">
-      <div>
-        <label for="refine-geographic-from">From city or state</label>
-        <input type="text" id="refine-geographic-from" autocomplete-type="location" placeholder="City or State"/>
-      </div>
-      <div>
-        <label for="refine-geographic-to">To city or state</label>
-        <input type="text" id="refine-geographic-to" autocomplete-type="location" placeholder="City or State"/>
-      </div>
+    <div>
+      <label for="refine-geographic-to">To city or state</label>
+      <input type="text" id="refine-geographic-to" autocomplete-type="location" placeholder="City or State"/>
     </div>
-
   </div>
 
   <h3>Data</h3>

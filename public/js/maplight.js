@@ -129,7 +129,7 @@ $(function() {
 
     var requestData = {
       "donor-from": $("#filter-donor-from").val(),
-      "donor-to": readData("#filter-donor-to"),
+      "donor-to": readData("filter-donor-to"),
       "location-from": $("#filter-location-from").val(),
       "location-to": $("#filter-location-to").val(),
       "year": $("#filter-year").val()

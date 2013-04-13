@@ -18,4 +18,8 @@ public class Application extends Controller {
     	render(cc);
     }
 
+    public static void query() {
+      render();
+    }
+
 }

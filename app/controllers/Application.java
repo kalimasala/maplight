@@ -12,5 +12,10 @@ public class Application extends Controller {
     public static void index() {
         render();
     }
+    
+    public static void listByRecipientDonarYear(String recipient, String donar, int year) {
+    	List <CandidateContributions> cc = CandidateContributions.findByRecipientDonarYear(recipient, donar, year);
+    	render(cc);
+    }
 
 }

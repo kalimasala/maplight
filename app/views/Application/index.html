@@ -1,2 +1,13 @@
 #{extends 'main.html' /}
 #{set title:'MapLight Query' /}
+
+
+#{form @Application.listByRecipientDonarYear(), method:'GET' }
+<input type="text" name="recipient" value="EMILY'S LIST" />
+<input type="text" name="donar" value="Marks, Kay" />
+<select name="year">
+	<option value="2014" selected="selected">2014</option>
+	<option value="2012">2012</option>
+</select>
+<input type="submit" value="Search" name="Search">
+#{/form}

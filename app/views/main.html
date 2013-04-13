@@ -54,19 +54,21 @@
     <div class="refine-individual" style="display: none;">
       <div>
         <span>From:</span>
-        <input type="text" placeholder="Contributor name"/>
+        <input type="text" class="refine-individual-from" placeholder="Contributor name"/>
       </div>
       <div>
         <span>To:</span>
         <div>
-          <input type="radio" name="refine-individual-to" value="refine-individual-to-anyone">Anyone</input>
+          <input type="radio" name="refine-individual-to" data-selector=".refine-individual-to-anyone-data">Anyone</input>
+          <input type="hidden" class="refine-individual-to-anyone-data" value="__anyone"/>
         </div>
         <div>
-          <input type="radio" name="refine-individual-to" value="refine-individual-to-single">A single candidate</input>
-          <input type="text" autocomplete-type="candidate" placeholder="Candidate name"/>
+          <input type="radio" name="refine-individual-to" data-selector=".refine-individual-to-single-data">A single candidate</input>
+          <input type="text" class="refine-individual-to-single-data" autocomplete-type="candidate" placeholder="Candidate name"/>
         </div>
         <div>
-          <input type="radio" name="refine-individual-to" value="refine-individual-to-all">All current candidates</input>
+          <input type="radio" name="refine-individual-to" data-selector=".refine-individual-to-all-data">All current candidates</input>
+          <input type="hidden" class="refine-individual-to-all-data" value="__current"/>
         </div>
       </div>
     </div>

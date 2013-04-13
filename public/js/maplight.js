@@ -108,6 +108,17 @@ $(function() {
         }
       },
       individual: {
+        data: function() {
+          var toData = $("input[name=refine-individual-to]:checked").attr("data-selector");
+          if (!toData) {
+            showError("Please select To:");
+            return;
+          }
+          return {
+            from: $(".refine-individual-from").val(),
+            to: $(toData).val()
+          };
+        }
       },
       candidate: {
       },

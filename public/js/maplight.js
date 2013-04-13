@@ -20,6 +20,7 @@ $(function() {
   //   }
   // });
 
+  // Autocomplete multiple, courtesy of http://jqueryui.com/autocomplete/#multiple
   var enableMultiAutocomplete = function($el, values) {
     var split = function( val ) {
       return val.split( /,\s*/ );
@@ -60,14 +61,10 @@ $(function() {
       });
   };
 
-  var candidateNames = [
-    "George Bush",
-    "John Kerry",
-    "Al Gore",
-    "Bill Clinton"
-  ];
-  // Autocomplete multiple, courtesy of http://jqueryui.com/autocomplete/#multiple
-  enableMultiAutocomplete($("[autocomplete-type=candidate]"), candidateNames);
+  $.get("/api/autocomplete/candidates")
+    .done(function(candidateNames) {
+      enableMultiAutocomplete($("[autocomplete-type=candidate]"), candidateNames);
+    });
 
   $.widget( "custom.catcomplete", $.ui.autocomplete, {
     _renderMenu: function( ul, items ) {

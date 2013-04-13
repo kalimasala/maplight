@@ -110,14 +110,14 @@ public class CandidateContributions extends Model {
 	}
 	
 	//TODO(rkj): cache this
-	public static List<String> getCurrentCandidates() {
+	public static List<JsonObject> getCurrentCandidates() {
 		String url = "http://data.maplight.org/FEC/active_incumbents.json";
 		HttpResponse res = WS.url(url).get();
 		JsonElement json = res.getJson();
-		List<String> ret = new LinkedList<String>();
+		List<JsonObject> ret = new LinkedList<JsonObject>();
 		for (JsonElement el : json.getAsJsonArray()) {
 			JsonObject obj = el.getAsJsonObject();
-			ret.add(obj.get("display_name").getAsString());
+			ret.add(obj);
 		}
 		return ret;
 	}
@@ -126,7 +126,7 @@ public class CandidateContributions extends Model {
 		return find("SELECT DISTINCT DonorOrganization FROM CandidateContributions").fetch();
 	}
 
-	public static List<CandidateContributions> findByRecipientDonarYear(String recipient, String donar, int year) {
+	public static List<CandidateContributions> findByRecipientDonorYear(String recipient, String donar, int year) {
 		final String y = new Integer(year).toString();
 		return find("byRecipientNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donar, y).fetch();
 	}
@@ -142,7 +142,7 @@ public class CandidateContributions extends Model {
 		}
 	}
 
-	public static List<CandidateContributions> findByDonar(String donar, int year) {
+	public static List<CandidateContributions> findByDonor(String donar, int year) {
 		if (year == 0)
 			return find("byDonorNameNormalized", donar).fetch();
 		else {

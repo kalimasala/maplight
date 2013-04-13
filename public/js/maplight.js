@@ -137,7 +137,7 @@ $(function() {
     };
 
     console.log(requestData);
-    $.post(
+    $.get(
       "/api/donor",
       requestData
     ).done(function(resp) {

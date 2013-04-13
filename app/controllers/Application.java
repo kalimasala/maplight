@@ -30,4 +30,7 @@ public class Application extends Controller {
     	render(cc);
     }
 
+  public static void byDonors() {
+	  renderTemplate("Application/listByRecipientDonarYear.html", new ArrayList<CandidateContributions>());
+  }
 }

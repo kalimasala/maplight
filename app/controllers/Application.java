@@ -25,7 +25,7 @@ public class Application extends Controller {
     		cc = CandidateContributions.findByRecipient(recipient, year);
     	} 
     	else {
-    		cc = CandidateContributions.findByDonar(donar, year);
+    		cc = CandidateContributions.findByDonor(donar, year);
     	}
     	render(cc);
     }

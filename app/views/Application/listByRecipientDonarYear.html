@@ -1,11 +1,19 @@
 #{extends 'main.html' /}
 #{set title:'listByRecipientDonarYear.html' /}
+<style>
+body {
+width: 80%;
+margin: auto;
 
-<table>
+}
+
+</style>
+
+<table class="cctable table table-bordered table-striped">
 <tr><th>Recipient Name</th><th>Donar Name</th><th>Amount</th></tr>
 #{list items:cc, as:'contr'}
 <tr>
-	<td>${contr.RecipientNameNormalized}</td>
+	<td>${contr.RecipientCandidateNameNormalized}</td>
 	<td>${contr.DonorNameNormalized}</td>
 	<td>${contr.TransactionAmount}</td>
 </tr>

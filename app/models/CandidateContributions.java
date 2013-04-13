@@ -2,6 +2,7 @@ package models;
 
 import play.*;
 import play.db.jpa.*;
+import play.mvc.Scope.Flash;
 
 import javax.persistence.*;
 import java.util.*;
@@ -91,9 +92,33 @@ public class CandidateContributions extends Model {
 	public String UpdateTimestamp;
 
 	
-	public static List<CandidateContributions> findByRecipientDonarYear(String recipient, String donar, int year) {
-		final String y = new Integer(year).toString();
-		return find("byRecipientNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donar, y).fetch();
+	public static List<CandidateContributions> findByRecipientDonar(String recipient, String donar, int year) {
+		if (year == 0)
+			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalized", recipient, donar).fetch();
+		else {
+			final String y = new Integer(year).toString();
+			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donar, y).fetch();			
+		}
 	}
-	
+
+	public static List<CandidateContributions> findByRecipient(String recipient, int year) {
+		if (year == 0) {
+			return find("byRecipientCandidateNameNormalized", recipient).fetch();			
+		}
+		else {
+			final String y = new Integer(year).toString();
+			return find("byRecipientCandidateNameNormalizedAndElectionCycle", recipient, y).fetch();
+			
+		}
+	}
+
+	public static List<CandidateContributions> findByDonar(String donar, int year) {
+		if (year == 0)
+			return find("byDonorNameNormalized", donar).fetch();
+		else {
+			final String y = new Integer(year).toString();
+			return find("byDonorNameNormalizedAndElectionCycle", donar, y).fetch();			
+		}
+	}
+
 }

@@ -21,9 +21,9 @@ public class Application extends Controller {
     		index();
 		}
     	List <CandidateContributions> cc = null;
-    	if (!recipient.isEmpty() && !donor.isEmpty())
-    		cc = CandidateContributions.findByRecipientdonor(recipient, donor, year);
-    	else if (!recipient.isEmpty()) {
+    	if (!recipient.isEmpty() && !donor.isEmpty()) {
+    		cc = CandidateContributions.findByRecipientDonor(recipient, donor, year);
+        } else if (!recipient.isEmpty()) {
     		cc = CandidateContributions.findByRecipient(recipient, year);
     	} 
     	else {
@@ -36,6 +36,13 @@ public class Application extends Controller {
     	
     }
 
-    public static void byDonor(String from, String to, int year) {
-    }
+  public static void byDonors(String from, String to, String date_start, String date_end) {
+	if (from == null) from = "";
+	if (to == null) to = "";
+  	if (from.isEmpty() && to.isEmpty()) {
+		flash.error("both recipient and donor cannot be empty");
+		return;
+	}
+	renderTemplate("CandidateContributions.html", CandidateContributions.get(from, to, date_start, date_end));
+  }
 }

@@ -136,12 +136,11 @@ $(function() {
     };
 
     console.log(requestData);
-    $.post(
+    $.get(
       "/api/donor",
       requestData
     ).done(function(resp) {
-      $(".data-table").html(resp);
-      $("data-table").dataTable();
+      $("#data-table").dataTable();
     }).fail(function() {
       showError("Error while fetching data!");
     });

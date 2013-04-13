@@ -1,0 +1,45 @@
+<table id="data-table" class="cctable table table-bordered table-striped">
+<tr>
+      <th>Election Cycle</th>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Donor Name</th>
+      <th>DonorCity</th>
+      <th>DonorState</th>
+      <th>DonorOccupation</th>
+      <th>DonorOrganization</th>
+      <th>DonorEntityType</th>
+      <th>Recipient Name</th>
+      <th>Party</th>
+      <th>Office</th>
+      <th>State</th>
+      <th>District</th>
+      <th>Status</th>
+</tr>
+#{list items:cc, as:'contr'}
+<tr>
+      <td>${contr.ElectionCycle}</td>
+    <td>${contr.TransactionDate}</td>
+      <td>${contr.TransactionAmount}</td>
+      <td>${contr.DonorNameNormalized}</td>
+      <td>${contr.DonorCity}</td>
+      <td>${contr.DonorState}</td>
+      <td>${contr.DonorOccupation}</td>
+      <td>${contr.DonorOrganization}</td>
+      <td>${contr.DonorEntityType}</td>
+      <td>${contr.RecipientCandidateNameNormalized}</td>
+      <td>${contr.RecipientCandidateParty}</td>
+      <td>${contr.RecipientCandidateOffice}</td>
+      <td>${contr.RecipientCandidateOfficeState}</td>
+      <td>${contr.RecipientCandidateDistrict}</td>
+      <td>${contr.RecipientCandidateStatus}</td>
+</tr>
+#{/list}
+</table>
+
+#{form @Application.downloadData(), method:'GET' }
+<input type="hidden" name="donor" value="${donor}" />
+<input type="hidden" name="recipient" value="${recipient}" />
+
+<input type="submit" name="Download CSV File" value="" class="button">
+#{/form}

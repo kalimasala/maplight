@@ -11,8 +11,8 @@ GET     /favicon.ico                            404
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
-GET    /list-by-recipient-donar                 Application.listByRecipientDonarYear
-
+GET    /list-by-recipient-donar                 Application.listByRecipientDonorYear
+GET    /download-data                           Application.downloadData
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

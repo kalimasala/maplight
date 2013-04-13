@@ -142,7 +142,7 @@ public class CandidateContributions extends Model {
 		}
 	}
 
-	public static List<CandidateContributions> findByDonar(String donar, int year) {
+	public static List<CandidateContributions> findByDonor(String donar, int year) {
 		if (year == 0)
 			return find("byDonorNameNormalized", donar).fetch();
 		else {

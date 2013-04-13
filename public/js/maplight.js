@@ -17,6 +17,9 @@ $(function() {
   });
 
   var enableMultiAutocomplete = function($el, values) {
+    var split = function( val ) {
+      return val.split( /,\s*/ );
+    };
     $el
       // don't navigate away from the field on tab when selecting an item
       .bind( "keydown", function( event ) {
@@ -28,9 +31,6 @@ $(function() {
       .autocomplete({
         minLength: 0,
         source: function( request, response ) {
-          var split = function( val ) {
-            return val.split( /,\s*/ );
-          };
           var extractLast = function( term ) {
             return split( term ).pop();
           };

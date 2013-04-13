@@ -121,6 +121,17 @@ $(function() {
         }
       },
       candidate: {
+        data: function() {
+          var fromData = $("input[name=refine-candidate-from]:checked").attr("data-selector");
+          if (!fromData) {
+            showError("Please select From:");
+            return;
+          }
+          return {
+            to: $(".refine-candidate-to").val(),
+            from: $(fromData).val()
+          };
+        }
       },
       geographic: {
       }

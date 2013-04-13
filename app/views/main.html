@@ -76,20 +76,21 @@
     <div class="refine-candidate" style="display: none;">
       <div>
         <span>To:</span>
-        <input type="text" placeholder="Candidate name"/>
+        <input type="text" class="refine-candidate-to" placeholder="Candidate name"/>
       </div>
       <div>
         <span>From:</span>
         <div>
-          <input type="radio" name="refine-candidate-from" value="refine-candidate-to-anyone">Anyone</input>
+          <input type="radio" name="refine-candidate-from" data-selector=".refine-candidate-from-anyone-data">Anyone</input>
+          <input type="hidden" class="refine-candidate-from-anyone-data" value="__anyone"/>
         </div>
         <div>
-          <input type="radio" name="refine-candidate-from" value="refine-candidate-to-single">A single candidate</input>
-          <input type="text" autocomplete-type="candidate" placeholder="Candidate name"/>
+          <input type="radio" name="refine-candidate-from" data-selector=".refine-candidate-from-single-data">A single candidate</input>
+          <input type="text" class="refine-candidate-from-single-data" autocomplete-type="candidate" placeholder="Candidate name"/>
         </div>
         <div>
-          <input type="radio" name="refine-candidate-from" value="refine-candidate-to-org">An organization</input>
-          <input type="text" placeholder="Organization name"/>
+          <input type="radio" name="refine-candidate-from" data-selector=".refine-candidate-from-org-data">An organization</input>
+          <input type="text" class="refine-candidate-from-org-data" placeholder="Organization name"/>
         </div>
       </div>
     </div>

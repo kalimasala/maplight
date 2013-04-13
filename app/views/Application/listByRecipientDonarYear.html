@@ -1,21 +1,42 @@
 #{extends 'main.html' /}
 #{set title:'listByRecipientDonarYear.html' /}
-<style>
-body {
-width: 80%;
-margin: auto;
 
-}
-
-</style>
 
 <table class="cctable table table-bordered table-striped">
-<tr><th>Recipient Name</th><th>Donar Name</th><th>Amount</th></tr>
+<tr>
+	<th>Election Cycle</th>
+	<th>Date</th>
+	<th>Amount</th>
+	<th>Donar Name</th>
+	<th>DonorCity</th>
+	<th>DonorState</th>
+	<th>DonorOccupation</th>
+	<th>DonorOrganization</th>
+	<th>DonorEntityType</th>
+	<th>Recipient Name</th>
+	<th>Party</th>
+	<th>Status</th>
+	<th>State</th>
+	<th>Office</th>
+	<th>District</th>
+</tr>
 #{list items:cc, as:'contr'}
 <tr>
-	<td>${contr.RecipientCandidateNameNormalized}</td>
-	<td>${contr.DonorNameNormalized}</td>
+	<td>${contr.ElectionCycle}</td>
+    <td>${contr.TransactionDate}</td>
 	<td>${contr.TransactionAmount}</td>
+	<td>${contr.DonorNameNormalized}</td>
+	<td>${contr.DonorCity}</td>
+	<td>${contr.DonorState}</td>
+	<td>${contr.DonorOccupation}</td>
+	<td>${contr.DonorOrganization}</td>
+	<td>${contr.DonorEntityType}</td>
+	<td>${contr.RecipientCandidateNameNormalized}</td>
+	<td>${contr.RecipientCandidateParty}</td>
+	<td>${contr.RecipientCandidateStatus}</td>
+	<td>${contr.RecipientCandidateOfficeState}</td>
+	<td>${contr.RecipientCandidateOffice}</td>
+	<td>${contr.RecipientCandidateDistrict}</td>
 </tr>
 #{/list}
 </table>

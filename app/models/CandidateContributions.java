@@ -90,7 +90,9 @@ public class CandidateContributions extends Model {
 	public String DonorCandidateGender;
 	public String UpdateTimestamp;
 
-	
+	public static List<String> getCandidatesNames() {
+		return find("SELECT DISTINCT c.RecipientNameNormalized FROM CandidateContributions c").fetch();
+	}
 	public static List<CandidateContributions> findByRecipientDonarYear(String recipient, String donar, int year) {
 		final String y = new Integer(year).toString();
 		return find("byRecipientNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donar, y).fetch();

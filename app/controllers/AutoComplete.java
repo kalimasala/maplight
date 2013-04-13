@@ -1,0 +1,12 @@
+package controllers;
+
+import java.util.List;
+
+import models.CandidateContributions;
+import play.mvc.Controller;
+
+public class AutoComplete extends Controller {
+	public static void candidates() {
+		renderJSON(CandidateContributions.getCandidatesNames());
+	}
+}

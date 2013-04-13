@@ -132,8 +132,7 @@ $(function() {
       "donor-to": readData("refine-donor-to"),
       "location-from": $("#refine-geographic-from").val(),
       "location-to": $("#refine-geographic-to").val(),
-      "date-start": $("#filter-date-start").val(),
-      "date-end": $("#filter-date-end").val()
+      "year": $("#filter-year").val()
     };
 
     console.log(requestData);

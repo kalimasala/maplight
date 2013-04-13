@@ -32,19 +32,21 @@
     <div class="refine-company" style="display: none;">
       <div>
         <span>From:</span>
-        <input type="text" placeholder="Company name"/>
+        <input type="text" class="refine-company-from" placeholder="Company name"/>
       </div>
       <div>
         <span>To:</span>
         <div>
-          <input type="radio" name="refine-company-to" value="refine-company-to-anyone">Anyone</input>
+          <input type="radio" name="refine-company-to" data-selector=".refine-company-to-anyone-data">Anyone</input>
+          <input type="hidden" class="refine-company-to-anyone-data" value="__anyone"/>
         </div>
         <div>
-          <input type="radio" name="refine-company-to" value="refine-company-to-single">A single candidate</input>
-          <input type="text" autocomplete-type="candidate" placeholder="Candidate name"/>
+          <input type="radio" name="refine-company-to" data-selector=".refine-company-to-single-data">A single candidate</input>
+          <input type="text" class="refine-company-to-single-data" autocomplete-type="candidate" placeholder="Candidate name"/>
         </div>
         <div>
-          <input type="radio" name="refine-company-to" value="refine-company-to-all">All current candidates</input>
+          <input type="radio" name="refine-company-to" data-selector=".refine-company-to-all-data">All current candidates</input>
+          <input type="hidden" class="refine-company-to-all-data" value="__current"/>
         </div>
       </div>
     </div>

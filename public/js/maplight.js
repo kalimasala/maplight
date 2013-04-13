@@ -24,7 +24,7 @@ $(function() {
     $(".refine").children().hide();
 
     if ($el.is(":checked")) {
-      $(queryTypeRefine[$el.val()]).show();
+      $(queryTypes[$el.val()].selector).show();
     }
   });
 
@@ -82,13 +82,39 @@ $(function() {
   $(".run-query").click(function() {
     $(".run-query-error").hide();
 
+    var showError = function(msg) {
+      $(".run-query-error").text(msg);
+      $(".run-query-error").show();
+    };
+
     var queryType = $("input[name=query-type]:checked").val();
     if (!queryType) {
-      $(".run-query-error").text("Please select a query type.");
-      $(".run-query-error").show();
+      showError("Please select a query type.");
       return;
     }
 
+    var queryApis = {
+      company: {
+        data: function() {
+          var toData = $("input[name=refine-company-to]:checked").attr("data-selector");
+          if (!toData) {
+            showError("Please select To:");
+            return;
+          }
+          return {
+            from: $(".refine-company-from").val(),
+            to: $(toData).val()
+          };
+        }
+      },
+      individual: {
+      },
+      candidate: {
+      },
+      geographic: {
+      }
+    };
 
+    console.log(queryApis[queryType].data());
   });
 });

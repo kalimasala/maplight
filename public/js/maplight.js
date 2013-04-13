@@ -1,16 +1,8 @@
 $(function() {
   var queryTypes = {
-    company: {
-      selector: ".refine-company",
-      url: "/api/company"
-    },
-    individual: {
-      selector: ".refine-individual",
-      url: "/api/individual"
-    },
-    candidate: {
-      selector: ".refine-candidate",
-      url: "/api/candidate"
+    donor: {
+      selector: ".refine-donor",
+      url: "/api/donor"
     },
     geographic: {
       selector: ".refine-geographic",
@@ -94,43 +86,16 @@ $(function() {
     }
 
     var queryApis = {
-      company: {
+      donor: {
         data: function() {
-          var toData = $("input[name=refine-company-to]:checked").attr("data-selector");
+          var toData = $("input[name=refine-donor-to]:checked").attr("data-selector");
           if (!toData) {
             showError("Please select To:");
             return;
           }
           return {
-            from: $(".refine-company-from").val(),
+            from: $(".refine-donor-from").val(),
             to: $(toData).val()
-          };
-        }
-      },
-      individual: {
-        data: function() {
-          var toData = $("input[name=refine-individual-to]:checked").attr("data-selector");
-          if (!toData) {
-            showError("Please select To:");
-            return;
-          }
-          return {
-            from: $(".refine-individual-from").val(),
-            to: $(toData).val()
-          };
-        }
-      },
-      candidate: {
-        data: function() {
-          var fromData = $("input[name=refine-candidate-from]:checked").attr("data-selector");
-          if (!fromData) {
-            showError("Please select From:");
-            return;
-          }
-          return {
-            to: $(".refine-candidate-to").val(),
-            from: $(fromData).val(),
-            type: $(fromData).attr("data-type")
           };
         }
       },

@@ -102,16 +102,25 @@
 
     <div class="refine-geographic" style="display: none;">
       <div>
-        <input type="radio" name="refine-geographic" data-selector=".refine-geographic-from-state-data">From state</input>
-        <input type="text" class="refine-geographic-from-state-data" data-type="from-state" autocomplete-type="state" placeholder="State"/>
+        <input type="radio" id="refine-geographic-from-state" name="refine-geographic" data-selector=".refine-geographic-from-state-data"></input>
+        <label for="refine-geographic-from-state">
+          From state
+          <input type="text" class="refine-geographic-from-state-data" data-type="from-state" autocomplete-type="state" placeholder="State"/>
+        </label>
       </div>
       <div>
-        <input type="radio" name="refine-geographic" data-selector=".refine-geographic-from-city-data">From city</input>
-        <input type="text" class="refine-geographic-from-city-data" data-type="from-city" placeholder="City"/>
+        <input type="radio" id="refine-geographic-from-city" name="refine-geographic" data-selector=".refine-geographic-from-city-data"></input>
+        <label for="refine-geographic-from-city">
+          From city
+          <input type="text" class="refine-geographic-from-city-data" data-type="from-city" placeholder="City"/>
+        </label>
       </div>
       <div>
-        <input type="radio" name="refine-geographic" data-selector=".refine-geographic-to-state-data">To state</input>
-        <input type="text" class="refine-geographic-to-state-data" data-type="to-state" autocomplete-type="state" placeholder="State"/>
+        <input type="radio" id="refine-geographic-to-state" name="refine-geographic" data-selector=".refine-geographic-to-state-data"></input>
+        <label for="refine-geographic-to-state">
+          To state
+          <input type="text" class="refine-geographic-to-state-data" data-type="to-state" autocomplete-type="state" placeholder="State"/>
+        </label>
       </div>
     </div>
 

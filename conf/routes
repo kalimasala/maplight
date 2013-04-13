@@ -12,7 +12,6 @@ GET     /favicon.ico                            404
 GET     /public/                                staticDir:public
 
 GET    /list-by-recipient-donar                 Application.listByRecipientDonarYear
-GET    /query                                   Application.query
 
 
 # Catch all

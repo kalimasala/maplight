@@ -1,5 +1,16 @@
-#{extends 'main.html' /}
-#{set title:'MapLight Query' /}
+<head>
+  <title>MapLight Query</title>
+
+  <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"/>
+
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+  <script type="text/javascript" src="/public/js/maplight.js"></script>
+  <script type="text/javascript" src="/public/js/states.js"></script>
+</head>
+
+
+<body>
 
   <h3>Select a type of query:</h3>
   <div>
@@ -66,16 +77,25 @@
       <div>
         <span>From:</span>
         <div>
-          <input type="radio" name="refine-candidate-from" data-selector=".refine-candidate-from-anyone-data">Anyone</input>
-          <input type="hidden" class="refine-candidate-from-anyone-data" data-type="anyone" value="__anyone"/>
+          <input type="radio" id="refine-candidate-from-anyone" name="refine-candidate-from" data-selector=".refine-candidate-from-anyone-data"></input>
+          <label for="refine-candidate-from-anyone">
+            Anyone
+            <input type="hidden" class="refine-candidate-from-anyone-data" data-type="anyone" value="__anyone"/>
+          </label>
         </div>
         <div>
-          <input type="radio" name="refine-candidate-from" data-selector=".refine-candidate-from-single-data">A single candidate</input>
-          <input type="text" class="refine-candidate-from-single-data" data-type="candidate" autocomplete-type="candidate" placeholder="Candidate name"/>
+          <input type="radio" id="refine-candidate-from-single" name="refine-candidate-from" data-selector=".refine-candidate-from-single-data"></input>
+          <label for="refine-candidate-from-single">
+            A single candidate
+            <input type="text" class="refine-candidate-from-single-data" data-type="candidate" autocomplete-type="candidate" placeholder="Candidate name"/>
+          </label>
         </div>
         <div>
-          <input type="radio" name="refine-candidate-from" data-selector=".refine-candidate-from-org-data">An organization</input>
-          <input type="text" class="refine-candidate-from-org-data" data-type="organization" placeholder="Organization name"/>
+          <input type="radio" id="refine-candidate-from-org" name="refine-candidate-from" data-selector=".refine-candidate-from-org-data"></input>
+          <label for="refine-candidate-from-org">
+            An organization
+            <input type="text" class="refine-candidate-from-org-data" data-type="organization" placeholder="Organization name"/>
+          </label>
         </div>
       </div>
     </div>
@@ -100,3 +120,5 @@
   <h3>Data</h3>
   <button type="button" class="run-query">Run Query</button>
   <div class="run-query-error" style="display:none;"/>
+
+</body>

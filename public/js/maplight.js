@@ -142,6 +142,7 @@ $(function() {
       requestData
     ).done(function(resp) {
       $(".data-table").html(resp);
+      $("data-table").dataTable();
     }).fail(function() {
       showError("Error while fetching data!");
     });

@@ -13,21 +13,27 @@ public class Application extends Controller {
         render();
     }
     
-    public static void listByRecipientDonarYear(String recipient, String donar, int year) {
-    	if (recipient.isEmpty() && donar.isEmpty()) {
-    		flash.error("both recipient and donar cannot be empty");
+    public static void listByRecipientDonorYear(String recipient, String donor, int year) {
+    	recipient = recipient.toLowerCase();
+    	donor = donor.toLowerCase();
+    	if (recipient.isEmpty() && donor.isEmpty()) {
+    		flash.error("both recipient and donor cannot be empty");
     		index();
 		}
     	List <CandidateContributions> cc = null;
-    	if (!recipient.isEmpty() && !donar.isEmpty())
-    		cc = CandidateContributions.findByRecipientDonar(recipient, donar, year);
+    	if (!recipient.isEmpty() && !donor.isEmpty())
+    		cc = CandidateContributions.findByRecipientdonor(recipient, donor, year);
     	else if (!recipient.isEmpty()) {
     		cc = CandidateContributions.findByRecipient(recipient, year);
     	} 
     	else {
-    		cc = CandidateContributions.findByDonor(donar, year);
+    		cc = CandidateContributions.findByDonor(donor, year);
     	}
     	render(cc);
+    }
+    
+    public static void downloadData() {
+    	
     }
 
   public static void byDonors(String from, String to, String date_start, String date_end) {

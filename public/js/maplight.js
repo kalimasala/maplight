@@ -1,9 +1,21 @@
 $(function() {
-  var queryTypeRefine = {
-    company: ".refine-company",
-    individual: ".refine-individual",
-    candidate: ".refine-candidate",
-    geographic: ".refine-geographic"
+  var queryTypes = {
+    company: {
+      selector: ".refine-company",
+      url: "/api/company"
+    },
+    individual: {
+      selector: ".refine-individual",
+      url: "/api/individual"
+    },
+    candidate: {
+      selector: ".refine-candidate",
+      url: "/api/candidate"
+    },
+    geographic: {
+      selector: ".refine-geographic",
+      url: "/api/geographic"
+    }
   };
 
   $("input[name=query-type]").change(function() {
@@ -66,4 +78,17 @@ $(function() {
   enableMultiAutocomplete($("[autocomplete-type=candidate]"), candidateNames);
 
   enableMultiAutocomplete($("[autocomplete-type=state]"), window.maplight.states);
+
+  $(".run-query").click(function() {
+    $(".run-query-error").hide();
+
+    var queryType = $("input[name=query-type]:checked").val();
+    if (!queryType) {
+      $(".run-query-error").text("Please select a query type.");
+      $(".run-query-error").show();
+      return;
+    }
+
+
+  });
 });

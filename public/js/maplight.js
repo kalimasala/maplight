@@ -128,20 +128,19 @@ $(function() {
     };
 
     var requestData = {
-      "donor-from": $(".refine-donor-from").val(),
-      "donor-to": readData("refine-donor-to"),
-      "location-from": $("#refine-geographic-from").val(),
-      "location-to": $("#refine-geographic-to").val(),
+      "donor-from": $("#filter-donor-from").val(),
+      "donor-to": readData("filter-donor-to"),
+      "location-from": $("#filter-location-from").val(),
+      "location-to": $("#filter-location-to").val(),
       "year": $("#filter-year").val()
     };
 
     console.log(requestData);
-    $.post(
+    $.get(
       "/api/donor",
       requestData
     ).done(function(resp) {
-      $(".data-table").html(resp);
-      $("data-table").dataTable();
+      $("#data-table").dataTable();
     }).fail(function() {
       showError("Error while fetching data!");
     });

@@ -4,6 +4,7 @@ import play.*;
 import play.db.jpa.*;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
+import play.templates.JavaExtensions;
 
 import javax.persistence.*;
 
@@ -163,4 +164,30 @@ public class CandidateContributions extends Model {
 		}
 	}
 
+	public static List<CandidateContributions> get(
+			String recipient,
+			String donor,
+			String date_start,
+			String date_end) {
+		List<String> wheres = new LinkedList<String>();
+    	if (!recipient.isEmpty()) {
+    		wheres.add("RecipientCandidateNameNormalized = " + recipient);
+    	}
+    	if (!donor.isEmpty()) {
+    		wheres.add("DonorNameNormalized = " + donor);
+    	}
+    	if (!date_start.isEmpty()) {
+    		wheres.add("TransactionDate >= " + date_start);
+    	}
+    	if (!date_end.isEmpty()) {
+    		wheres.add("TransactionDate <= " + date_end);
+    	}
+    	StringBuffer sql = new StringBuffer();
+    	sql.append("SELECT * FROM CandidateContributions");
+    	if (wheres.size() > 0) {
+    		sql.append("\nWHERE ");
+   			sql.append(JavaExtensions.join(wheres, ", "));
+    	}
+    	return find(sql.toString()).fetch();
+	}
 }

@@ -141,7 +141,7 @@ $(function() {
       "/api/donor",
       requestData
     ).done(function(resp) {
-      $(".data-table").html(resp);
+      $("#data-table").html(resp);
     }).fail(function() {
       showError("Error while fetching data!");
     });

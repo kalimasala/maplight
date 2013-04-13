@@ -30,7 +30,13 @@ public class Application extends Controller {
     	render(cc);
     }
 
-  public static void byDonors() {
-	  renderTemplate("Application/listByRecipientDonarYear.html", new ArrayList<CandidateContributions>());
+  public static void byDonors(String from, String to, String date_start, String date_end) {
+	if (from == null) from = "";
+	if (to == null) to = "";
+  	if (from.isEmpty() && to.isEmpty()) {
+		flash.error("both recipient and donor cannot be empty");
+		return;
+	}
+	renderTemplate("CandidateContributions.html", CandidateContributions.get(from, to, date_start, date_end));
   }
 }

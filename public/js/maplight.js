@@ -1,9 +1,21 @@
 $(function() {
-  var queryTypeRefine = {
-    company: ".refine-company",
-    individual: ".refine-individual",
-    candidate: ".refine-candidate",
-    geographic: ".refine-geographic"
+  var queryTypes = {
+    company: {
+      selector: ".refine-company",
+      url: "/api/company"
+    },
+    individual: {
+      selector: ".refine-individual",
+      url: "/api/individual"
+    },
+    candidate: {
+      selector: ".refine-candidate",
+      url: "/api/candidate"
+    },
+    geographic: {
+      selector: ".refine-geographic",
+      url: "/api/geographic"
+    }
   };
 
   $("input[name=query-type]").change(function() {
@@ -12,7 +24,7 @@ $(function() {
     $(".refine").children().hide();
 
     if ($el.is(":checked")) {
-      $(queryTypeRefine[$el.val()]).show();
+      $(queryTypes[$el.val()].selector).show();
     }
   });
 
@@ -66,4 +78,85 @@ $(function() {
   enableMultiAutocomplete($("[autocomplete-type=candidate]"), candidateNames);
 
   enableMultiAutocomplete($("[autocomplete-type=state]"), window.maplight.states);
+
+  $(".run-query").click(function() {
+    $(".run-query-error").hide();
+
+    var showError = function(msg) {
+      $(".run-query-error").text(msg);
+      $(".run-query-error").show();
+    };
+
+    var queryType = $("input[name=query-type]:checked").val();
+    if (!queryType) {
+      showError("Please select a query type.");
+      return;
+    }
+
+    var queryApis = {
+      company: {
+        data: function() {
+          var toData = $("input[name=refine-company-to]:checked").attr("data-selector");
+          if (!toData) {
+            showError("Please select To:");
+            return;
+          }
+          return {
+            from: $(".refine-company-from").val(),
+            to: $(toData).val()
+          };
+        }
+      },
+      individual: {
+        data: function() {
+          var toData = $("input[name=refine-individual-to]:checked").attr("data-selector");
+          if (!toData) {
+            showError("Please select To:");
+            return;
+          }
+          return {
+            from: $(".refine-individual-from").val(),
+            to: $(toData).val()
+          };
+        }
+      },
+      candidate: {
+        data: function() {
+          var fromData = $("input[name=refine-candidate-from]:checked").attr("data-selector");
+          if (!fromData) {
+            showError("Please select From:");
+            return;
+          }
+          return {
+            to: $(".refine-candidate-to").val(),
+            from: $(fromData).val(),
+            type: $(fromData).attr("data-type")
+          };
+        }
+      },
+      geographic: {
+        data: function() {
+          var data = $("input[name=refine-geographic]:checked").attr("data-selector");
+          if (!data) {
+            showError("Please select From: or To:");
+            return;
+          }
+          return {
+            data: $(data).val(),
+            type: $(data).attr("data-type")
+          };
+        }
+      }
+    };
+
+    console.log(queryApis[queryType].data());
+    $.post(
+      queryTypes[queryType].url,
+      queryApis[queryType].data()
+    ).done(function(resp) {
+      console.log(resp);
+    }).fail(function() {
+      showError("Error while fetching data!");
+    });
+  });
 });

@@ -1,0 +1,163 @@
+<head>
+  <title>MapLight Query</title>
+
+  <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"/>
+
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+  <script type="text/javascript" src="/public/js/maplight.js"></script>
+  <script type="text/javascript" src="/public/js/states.js"></script>
+</head>
+
+
+<body>
+
+  <h3>Select a type of query:</h3>
+  <div>
+    <div>
+      <input type="radio" id="query-type-company" name="query-type" value="company"/>
+      <label for="query-type-company">Contributions by company</label>
+    </div>
+    <div>
+      <input type="radio" id="query-type-individual" name="query-type" value="individual"/>
+      <label for="query-type-individual">Contributions by individual</label>
+    </div>
+    <div>
+      <input type="radio" id="query-type-candidate" name="query-type" value="candidate"/>
+      <label for="query-type-candidate">Contributions by candidate</label>
+    </div>
+    <div>
+      <input type="radio" id="query-type-geographic" name="query-type" value="geographic"/>
+      <label for="query-type-geographic">Contributions by geographic location</label>
+    </div>
+  </div>
+
+  <h3>Refine query:</h3>
+  <div class="refine">
+
+    <span>Please select a query type above.</span>
+
+    <div class="refine-company" style="display: none;">
+      <div>
+        <span>From:</span>
+        <input type="text" class="refine-company-from" placeholder="Company name"/>
+      </div>
+      <div>
+        <span>To:</span>
+        <div>
+          <input type="radio" id="refine-company-to-anyone" name="refine-company-to" data-selector=".refine-company-to-anyone-data"/>
+          <label for="refine-company-to-anyone">
+            Anyone
+            <input type="hidden" class="refine-company-to-anyone-data" value="__anyone"/>
+          </label>
+        </div>
+        <div>
+          <input type="radio" id="refine-company-to-single" name="refine-company-to" data-selector=".refine-company-to-single-data"/>
+          <label for="refine-company-to-single">
+            A single candidate
+            <input type="text" class="refine-company-to-single-data" autocomplete-type="candidate" placeholder="Candidate name"/>
+          </label>
+        </div>
+        <div>
+          <input type="radio" id="refine-company-to-all" name="refine-company-to" data-selector=".refine-company-to-all-data"/>
+          <label for="refine-company-to-all">
+            All current candidates
+            <input type="hidden" class="refine-company-to-all-data" value="__current"/>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="refine-individual" style="display: none;">
+      <div>
+        <span>From:</span>
+        <input type="text" class="refine-individual-from" placeholder="Contributor name"/>
+      </div>
+      <div>
+        <span>To:</span>
+        <div>
+          <input type="radio" id="refine-individual-to-anyone" name="refine-individual-to" data-selector=".refine-individual-to-anyone-data"/>
+          <label for="refine-individual-to-anyone">
+            Anyone
+            <input type="hidden" class="refine-individual-to-anyone-data" value="__anyone"/>
+          </label>
+        </div>
+        <div>
+          <input type="radio" id="refine-individual-to-single" name="refine-individual-to" data-selector=".refine-individual-to-single-data"/>
+          <label for="refine-individual-to-single">
+            A single candidate
+            <input type="text" class="refine-individual-to-single-data" autocomplete-type="candidate" placeholder="Candidate name"/>
+          </label>
+        </div>
+        <div>
+          <input type="radio" id="refine-individual-to-all" name="refine-individual-to" data-selector=".refine-individual-to-all-data"/>
+          <label for="refine-individual-to-all">
+            All current candidates
+            <input type="hidden" class="refine-individual-to-all-data" value="__current"/>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="refine-candidate" style="display: none;">
+      <div>
+        <span>To:</span>
+        <input type="text" class="refine-candidate-to" autocomplete-type="candidate" placeholder="Candidate name"/>
+      </div>
+      <div>
+        <span>From:</span>
+        <div>
+          <input type="radio" id="refine-candidate-from-anyone" name="refine-candidate-from" data-selector=".refine-candidate-from-anyone-data"/>
+          <label for="refine-candidate-from-anyone">
+            Anyone
+            <input type="hidden" class="refine-candidate-from-anyone-data" data-type="anyone" value="__anyone"/>
+          </label>
+        </div>
+        <div>
+          <input type="radio" id="refine-candidate-from-single" name="refine-candidate-from" data-selector=".refine-candidate-from-single-data"/>
+          <label for="refine-candidate-from-single">
+            A single candidate
+            <input type="text" class="refine-candidate-from-single-data" data-type="candidate" autocomplete-type="candidate" placeholder="Candidate name"/>
+          </label>
+        </div>
+        <div>
+          <input type="radio" id="refine-candidate-from-org" name="refine-candidate-from" data-selector=".refine-candidate-from-org-data"/>
+          <label for="refine-candidate-from-org">
+            An organization
+            <input type="text" class="refine-candidate-from-org-data" data-type="organization" placeholder="Organization name"/>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="refine-geographic" style="display: none;">
+      <div>
+        <input type="radio" id="refine-geographic-from-state" name="refine-geographic" data-selector=".refine-geographic-from-state-data"/>
+        <label for="refine-geographic-from-state">
+          From state
+          <input type="text" class="refine-geographic-from-state-data" data-type="from-state" autocomplete-type="state" placeholder="State"/>
+        </label>
+      </div>
+      <div>
+        <input type="radio" id="refine-geographic-from-city" name="refine-geographic" data-selector=".refine-geographic-from-city-data"/>
+        <label for="refine-geographic-from-city">
+          From city
+          <input type="text" class="refine-geographic-from-city-data" data-type="from-city" placeholder="City"/>
+        </label>
+      </div>
+      <div>
+        <input type="radio" id="refine-geographic-to-state" name="refine-geographic" data-selector=".refine-geographic-to-state-data"/>
+        <label for="refine-geographic-to-state">
+          To state
+          <input type="text" class="refine-geographic-to-state-data" data-type="to-state" autocomplete-type="state" placeholder="State"/>
+        </label>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>Data</h3>
+  <button type="button" class="run-query">Run Query</button>
+  <div class="run-query-error" style="display:none;"/>
+
+</body>

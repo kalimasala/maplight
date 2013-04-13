@@ -134,6 +134,16 @@ $(function() {
         }
       },
       geographic: {
+        data: function() {
+          var data = $("input[name=refine-geographic]:checked").attr("data-selector");
+          if (!data) {
+            showError("Please select From: or To:");
+            return;
+          }
+          return {
+            data: $(data).val()
+          };
+        }
       }
     };
 

@@ -2,8 +2,14 @@ package models;
 
 import play.*;
 import play.db.jpa.*;
+import play.libs.WS;
+import play.libs.WS.HttpResponse;
 
 import javax.persistence.*;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import java.util.*;
 
 @Entity
@@ -91,16 +97,58 @@ public class CandidateContributions extends Model {
 	public String UpdateTimestamp;
 
 	public static List<String> getCandidatesNames() {
-		return find("SELECT DISTINCT c.RecipientNameNormalized FROM CandidateContributions").fetch();
+		return find("SELECT DISTINCT RecipientNameNormalized FROM CandidateContributions").fetch();
+	}
+	
+	public static List<CandidateContributions> findByRecipientDonar(String recipient, String donar, int year) {
+		if (year == 0)
+			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalized", recipient, donar).fetch();
+		else {
+			final String y = new Integer(year).toString();
+			return find("byRecipientCandidateNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donar, y).fetch();			
+		}
+	}
+	
+	//TODO(rkj): cache this
+	public static List<JsonObject> getCurrentCandidates() {
+		String url = "http://data.maplight.org/FEC/active_incumbents.json";
+		HttpResponse res = WS.url(url).get();
+		JsonElement json = res.getJson();
+		List<JsonObject> ret = new LinkedList<JsonObject>();
+		for (JsonElement el : json.getAsJsonArray()) {
+			JsonObject obj = el.getAsJsonObject();
+			ret.add(obj);
+		}
+		return ret;
 	}
 	
 	public static List<String> getCompaniesNames() {
 		return find("SELECT DISTINCT DonorOrganization FROM CandidateContributions").fetch();
 	}
 
-	public static List<CandidateContributions> findByRecipientDonarYear(String recipient, String donar, int year) {
+	public static List<CandidateContributions> findByRecipientDonorYear(String recipient, String donar, int year) {
 		final String y = new Integer(year).toString();
 		return find("byRecipientNameNormalizedAndDonorNameNormalizedAndElectionCycle", recipient, donar, y).fetch();
 	}
-	
+
+	public static List<CandidateContributions> findByRecipient(String recipient, int year) {
+		if (year == 0) {
+			return find("byRecipientCandidateNameNormalized", recipient).fetch();			
+		}
+		else {
+			final String y = new Integer(year).toString();
+			return find("byRecipientCandidateNameNormalizedAndElectionCycle", recipient, y).fetch();
+			
+		}
+	}
+
+	public static List<CandidateContributions> findByDonor(String donar, int year) {
+		if (year == 0)
+			return find("byDonorNameNormalized", donar).fetch();
+		else {
+			final String y = new Integer(year).toString();
+			return find("byDonorNameNormalizedAndElectionCycle", donar, y).fetch();			
+		}
+	}
+
 }

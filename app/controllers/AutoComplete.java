@@ -13,4 +13,8 @@ public class AutoComplete extends Controller {
 	public static void companies() {
 		renderJSON(CandidateContributions.getCompaniesNames());
 	}
+	
+	public static void currentCandidates() {
+		renderJSON(CandidateContributions.getCurrentCandidates());	
+	}
 }

@@ -1,13 +1,17 @@
 #{extends 'main.html' /}
 #{set title:'MapLight Query' /}
 
+#{if flash.error}
+<div class="error">${flash.error}</div>
+#{/if}
 
 #{form @Application.listByRecipientDonarYear(), method:'GET' }
-<input type="text" name="recipient" value="EMILY'S LIST" />
-<input type="text" name="donar" value="Marks, Kay" />
+<input type="text" name="recipient" value="Marshall C Sanford Jr" />
+<input type="text" name="donar" value="National Republican Congressional" />
 <select name="year">
 	<option value="2014" selected="selected">2014</option>
 	<option value="2012">2012</option>
+	<option></option>
 </select>
 <input type="submit" value="Search" name="Search">
 #{/form}

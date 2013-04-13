@@ -14,7 +14,19 @@ public class Application extends Controller {
     }
     
     public static void listByRecipientDonarYear(String recipient, String donar, int year) {
-    	List <CandidateContributions> cc = CandidateContributions.findByRecipientDonarYear(recipient, donar, year);
+    	if (recipient.isEmpty() && donar.isEmpty()) {
+    		flash.error("both recipient and donar cannot be empty");
+    		index();
+		}
+    	List <CandidateContributions> cc = null;
+    	if (!recipient.isEmpty() && !donar.isEmpty())
+    		cc = CandidateContributions.findByRecipientDonar(recipient, donar, year);
+    	else if (!recipient.isEmpty()) {
+    		cc = CandidateContributions.findByRecipient(recipient, year);
+    	} 
+    	else {
+    		cc = CandidateContributions.findByDonor(donar, year);
+    	}
     	render(cc);
     }
 

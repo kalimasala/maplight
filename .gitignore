@@ -8,3 +8,4 @@
 /precompiled
 *.log
 server.pid
+data/*.csv

@@ -129,7 +129,8 @@ $(function() {
           }
           return {
             to: $(".refine-candidate-to").val(),
-            from: $(fromData).val()
+            from: $(fromData).val(),
+            type: $(fromData).attr("data-type")
           };
         }
       },
@@ -141,7 +142,8 @@ $(function() {
             return;
           }
           return {
-            data: $(data).val()
+            data: $(data).val(),
+            type: $(data).attr("data-type")
           };
         }
       }

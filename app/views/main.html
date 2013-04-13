@@ -82,15 +82,15 @@
         <span>From:</span>
         <div>
           <input type="radio" name="refine-candidate-from" data-selector=".refine-candidate-from-anyone-data">Anyone</input>
-          <input type="hidden" class="refine-candidate-from-anyone-data" value="__anyone"/>
+          <input type="hidden" class="refine-candidate-from-anyone-data" data-type="anyone" value="__anyone"/>
         </div>
         <div>
           <input type="radio" name="refine-candidate-from" data-selector=".refine-candidate-from-single-data">A single candidate</input>
-          <input type="text" class="refine-candidate-from-single-data" autocomplete-type="candidate" placeholder="Candidate name"/>
+          <input type="text" class="refine-candidate-from-single-data" data-type="candidate" autocomplete-type="candidate" placeholder="Candidate name"/>
         </div>
         <div>
           <input type="radio" name="refine-candidate-from" data-selector=".refine-candidate-from-org-data">An organization</input>
-          <input type="text" class="refine-candidate-from-org-data" placeholder="Organization name"/>
+          <input type="text" class="refine-candidate-from-org-data" data-type="organization" placeholder="Organization name"/>
         </div>
       </div>
     </div>
@@ -98,15 +98,15 @@
     <div class="refine-geographic" style="display: none;">
       <div>
         <input type="radio" name="refine-geographic" data-selector=".refine-geographic-from-state-data">From state</input>
-        <input type="text" class="refine-geographic-from-state-data" autocomplete-type="state" placeholder="State"/>
+        <input type="text" class="refine-geographic-from-state-data" data-type="from-state" autocomplete-type="state" placeholder="State"/>
       </div>
       <div>
         <input type="radio" name="refine-geographic" data-selector=".refine-geographic-from-city-data">From city</input>
-        <input type="text" class="refine-geographic-from-city-data" placeholder="City"/>
+        <input type="text" class="refine-geographic-from-city-data" data-type="from-city" placeholder="City"/>
       </div>
       <div>
         <input type="radio" name="refine-geographic" data-selector=".refine-geographic-to-state-data">To state</input>
-        <input type="text" class="refine-geographic-to-state-data" autocomplete-type="state" placeholder="State"/>
+        <input type="text" class="refine-geographic-to-state-data" data-type="to-state" autocomplete-type="state" placeholder="State"/>
       </div>
     </div>
 

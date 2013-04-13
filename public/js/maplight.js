@@ -1,24 +1,24 @@
 $(function() {
-  var queryTypes = {
-    donor: {
-      selector: ".refine-donor",
-      url: "/api/donor"
-    },
-    geographic: {
-      selector: ".refine-geographic",
-      url: "/api/geographic"
-    }
-  };
+  // var queryTypes = {
+  //   donor: {
+  //     selector: ".refine-donor",
+  //     url: "/api/donor"
+  //   },
+  //   geographic: {
+  //     selector: ".refine-geographic",
+  //     url: "/api/geographic"
+  //   }
+  // };
 
-  $("input[name=query-type]").change(function() {
-    var $el = $(this);
+  // $("input[name=query-type]").change(function() {
+  //   var $el = $(this);
 
-    $(".refine").children().hide();
+  //   $(".refine").children().hide();
 
-    if ($el.is(":checked")) {
-      $(queryTypes[$el.val()].selector).show();
-    }
-  });
+  //   if ($el.is(":checked")) {
+  //     $(queryTypes[$el.val()].selector).show();
+  //   }
+  // });
 
   var enableMultiAutocomplete = function($el, values) {
     var split = function( val ) {
@@ -69,7 +69,23 @@ $(function() {
   // Autocomplete multiple, courtesy of http://jqueryui.com/autocomplete/#multiple
   enableMultiAutocomplete($("[autocomplete-type=candidate]"), candidateNames);
 
-  enableMultiAutocomplete($("[autocomplete-type=state]"), window.maplight.states);
+  $.widget( "custom.catcomplete", $.ui.autocomplete, {
+    _renderMenu: function( ul, items ) {
+      var that = this,
+        currentCategory = "";
+      $.each( items, function( index, item ) {
+        if ( item.category != currentCategory ) {
+          ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+          currentCategory = item.category;
+        }
+        that._renderItemData( ul, item );
+      });
+    }
+  });
+  $("[autocomplete-type=location]").catcomplete({
+      delay: 0,
+      source: window.maplight.locations
+  });
 
   $(".run-query").click(function() {
     $(".run-query-error").hide();
@@ -79,45 +95,54 @@ $(function() {
       $(".run-query-error").show();
     };
 
-    var queryType = $("input[name=query-type]:checked").val();
-    if (!queryType) {
-      showError("Please select a query type.");
-      return;
-    }
+    // var queryType = $("input[name=query-type]:checked").val();
+    // if (!queryType) {
+    //   showError("Please select a query type.");
+    //   return;
+    // }
 
-    var queryApis = {
-      donor: {
-        data: function() {
-          var toData = $("input[name=refine-donor-to]:checked").attr("data-selector");
-          if (!toData) {
-            showError("Please select To:");
-            return;
-          }
-          return {
-            from: $(".refine-donor-from").val(),
-            to: $(toData).val()
-          };
-        }
-      },
-      geographic: {
-        data: function() {
-          var data = $("input[name=refine-geographic]:checked").attr("data-selector");
-          if (!data) {
-            showError("Please select From: or To:");
-            return;
-          }
-          return {
-            data: $(data).val(),
-            type: $(data).attr("data-type")
-          };
-        }
-      }
+    // var queryApis = {
+    //   donor: {
+    //     data: function() {
+    //       var toData = $("input[name=refine-donor-to]:checked").attr("data-selector");
+    //       if (!toData) {
+    //         showError("Please select To:");
+    //         return;
+    //       }
+    //       return {
+    //         from: $(".refine-donor-from").val(),
+    //         to: $(toData).val()
+    //       };
+    //     }
+    //   },
+    //   geographic: {
+    //     data: function() {
+    //       return {
+    //         from: $("#refine-geographic-from").val(),
+    //         to: $("#refine-geographic-to").val()
+    //       };
+    //     }
+    //   }
+    // };
+
+    var readData = function(radioGroupName) {
+      var toData = $("input[name=" + radioGroupName + "]:checked").attr("data-selector");
+      return toData && $(toData).val();
     };
 
-    console.log(queryApis[queryType].data());
+    var requestData = {
+      "donor-from": $(".refine-donor-from").val(),
+      "donor-to": readData("refine-donor-to"),
+      "location-from": $("#refine-geographic-from").val(),
+      "location-to": $("#refine-geographic-to").val(),
+      "date-start": $("#filter-date-start").val(),
+      "date-end": $("#filter-date-end").val()
+    };
+
+    console.log(requestData);
     $.post(
-      queryTypes[queryType].url,
-      queryApis[queryType].data()
+      "/api/donor",
+      requestData
     ).done(function(resp) {
       console.log(resp);
     }).fail(function() {

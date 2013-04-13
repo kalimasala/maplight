@@ -6,84 +6,78 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
   <script type="text/javascript" src="/public/js/maplight.js"></script>
-  <script type="text/javascript" src="/public/js/states.js"></script>
-</head>
+  <script type="text/javascript" src="/public/js/locations.js"></script>
 
+  <style>
+    .ui-autocomplete-category {
+      font-weight: bold;
+      padding: .2em .4em;
+      margin: .8em 0 .2em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
 
 <body>
 
-  <h3>Select a type of query:</h3>
-  <div>
+  <h3>Filters</h3>
+
+  <h4>Donor</h4>
+  <div class="filter-donor-from">
+    <span>From:</span>
+    <input type="text" class="filter-donor-from" placeholder="Donor (company, organization, or individual)"/>
+  </div>
+
+  <h4>Recipient(s)</h4>
+  <div class="filter-donor-to">
+    <span>To:</span>
     <div>
-      <input type="radio" id="query-type-donor" name="query-type" value="donor"/>
-      <label for="query-type-donor">Contributions by donors</label>
+      <input type="radio" id="filter-donor-to-anyone" name="filter-donor-to" data-selector=".filter-donor-to-anyone-data"/>
+      <label for="filter-donor-to-anyone">
+        Anyone
+        <input type="hidden" class="filter-donor-to-anyone-data" value="__anyone"/>
+      </label>
     </div>
     <div>
-      <input type="radio" id="query-type-geographic" name="query-type" value="geographic"/>
-      <label for="query-type-geographic">Contributions by geographic location</label>
+      <input type="radio" id="filter-donor-to-single" name="filter-donor-to" data-selector=".filter-donor-to-single-data"/>
+      <label for="filter-donor-to-single">
+        These candidates:
+        <div>
+          <textarea class="filter-donor-to-single-data" autocomplete-type="candidate" placeholder="Candidate name"></textarea>
+        </div>
+      </label>
+    </div>
+    <div>
+      <input type="radio" id="filter-donor-to-all" name="filter-donor-to" data-selector=".filter-donor-to-all-data"/>
+      <label for="filter-donor-to-all">
+        All current candidates
+        <input type="hidden" class="filter-donor-to-all-data" value="__current"/>
+      </label>
     </div>
   </div>
 
-  <h3>Refine query:</h3>
-  <div class="refine">
-
-    <span>Please select a query type above.</span>
-
-    <div class="refine-donor" style="display: none;">
-      <div>
-        <span>From:</span>
-        <input type="text" class="refine-donor-from" placeholder="Donor (company, organization, or individual)"/>
-      </div>
-      <div>
-        <span>To:</span>
-        <div>
-          <input type="radio" id="refine-donor-to-anyone" name="refine-donor-to" data-selector=".refine-donor-to-anyone-data"/>
-          <label for="refine-donor-to-anyone">
-            Anyone
-            <input type="hidden" class="refine-donor-to-anyone-data" value="__anyone"/>
-          </label>
-        </div>
-        <div>
-          <input type="radio" id="refine-donor-to-single" name="refine-donor-to" data-selector=".refine-donor-to-single-data"/>
-          <label for="refine-donor-to-single">
-            These candidates:
-            <input type="text" class="refine-donor-to-single-data" autocomplete-type="candidate" placeholder="Candidate name"/>
-          </label>
-        </div>
-        <div>
-          <input type="radio" id="refine-donor-to-all" name="refine-donor-to" data-selector=".refine-donor-to-all-data"/>
-          <label for="refine-donor-to-all">
-            All current candidates
-            <input type="hidden" class="refine-donor-to-all-data" value="__current"/>
-          </label>
-        </div>
-      </div>
+  <h4>Location</h4>
+  <div class="filter-location">
+    <div>
+      <label for="filter-location-from">From city or state</label>
+      <input type="text" id="filter-location-from" autocomplete-type="location" placeholder="City or State"/>
     </div>
-
-    <div class="refine-geographic" style="display: none;">
-      <div>
-        <input type="radio" id="refine-geographic-from-state" name="refine-geographic" data-selector=".refine-geographic-from-state-data"/>
-        <label for="refine-geographic-from-state">
-          From state
-          <input type="text" class="refine-geographic-from-state-data" data-type="from-state" autocomplete-type="state" placeholder="State"/>
-        </label>
-      </div>
-      <div>
-        <input type="radio" id="refine-geographic-from-city" name="refine-geographic" data-selector=".refine-geographic-from-city-data"/>
-        <label for="refine-geographic-from-city">
-          From city
-          <input type="text" class="refine-geographic-from-city-data" data-type="from-city" placeholder="City"/>
-        </label>
-      </div>
-      <div>
-        <input type="radio" id="refine-geographic-to-state" name="refine-geographic" data-selector=".refine-geographic-to-state-data"/>
-        <label for="refine-geographic-to-state">
-          To state
-          <input type="text" class="refine-geographic-to-state-data" data-type="to-state" autocomplete-type="state" placeholder="State"/>
-        </label>
-      </div>
+    <div>
+      <label for="filter-location-to">To city or state</label>
+      <input type="text" id="filter-location-to" autocomplete-type="location" placeholder="City or State"/>
     </div>
+  </div>
 
+  <h4>Time</h4>
+  <div class="filter-date">
+    <div>
+      <label for="filter-date-start">Start year</label>
+      <input type="date" id="filter-date-start" placeholder="Year"/>
+    </div>
+    <div>
+      <label for="filter-date-end">End year</label>
+      <input type="date" id="filter-date-end" placeholder="Year"/>
+    </div>
   </div>
 
   <h3>Data</h3>

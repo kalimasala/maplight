@@ -1,0 +1,10 @@
+/tmp
+/bin
+/modules
+/test-result
+/logs
+/eclipse
+/javadocs
+/precompiled
+*.log
+server.pid

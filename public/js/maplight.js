@@ -66,22 +66,22 @@ $(function() {
       enableMultiAutocomplete($("[autocomplete-type=candidate]"), candidateNames);
     });
 
-  $.widget( "custom.catcomplete", $.ui.autocomplete, {
-    _renderMenu: function( ul, items ) {
-      var that = this,
-        currentCategory = "";
-      $.each( items, function( index, item ) {
-        if ( item.category != currentCategory ) {
-          ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
-          currentCategory = item.category;
-        }
-        that._renderItemData( ul, item );
-      });
-    }
-  });
-  $("[autocomplete-type=location]").catcomplete({
+  // $.widget( "custom.catcomplete", $.ui.autocomplete, {
+  //   _renderMenu: function( ul, items ) {
+  //     var that = this,
+  //       currentCategory = "";
+  //     $.each( items, function( index, item ) {
+  //       if ( item.category != currentCategory ) {
+  //         ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+  //         currentCategory = item.category;
+  //       }
+  //       that._renderItemData( ul, item );
+  //     });
+  //   }
+  // });
+  $("[autocomplete-type=location]").autocomplete({
       delay: 0,
-      source: window.maplight.locations
+      source: window.maplight.states
   });
 
   $(".run-query").click(function() {

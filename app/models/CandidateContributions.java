@@ -184,6 +184,9 @@ public class CandidateContributions extends Model {
     
 		String date_start = getOrEmpty(params, "date-start");
 		String date_end = getOrEmpty(params, "date-end");
+		String location_from = getOrEmpty(params, "location-from");
+		String location_to = getOrEmpty(params, "location-to");
+
 		List<String> wheres = new LinkedList<String>();
 		List<Object> finders = new LinkedList<Object>();
 		if (!recipient.isEmpty()) {
@@ -218,6 +221,17 @@ public class CandidateContributions extends Model {
     		wheres.add("TransactionDate <= ?");
     		finders.add(date_end);
     	}
+    	if (!location_from.isEmpty()) {
+    		wheres.add("(lower(DonorState) = ? OR lower(DonorCity) = ?)");
+    		finders.add(location_from.toLowerCase());
+    		finders.add(location_from.toLowerCase());
+    	}
+    	if (!location_to.isEmpty()) {
+    		wheres.add("lower(RecipientCandidateOfficeState) = ");
+    		finders.add(location_to.toLowerCase());
+    	}
+    	
+    	
     	StringBuffer sql = new StringBuffer();
     	sql.append("SELECT c FROM CandidateContributions c ");
     	if (wheres.size() > 0) {

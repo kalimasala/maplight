@@ -14,7 +14,7 @@
 </div>
 
 <table id="data-table" class="cctable table table-bordered table-striped" style="max-width: initial; font-size: small;">
-<tr>
+<thead>
       <th>Election Cycle</th>
       <th>Date</th>
       <th>Amount</th>
@@ -30,7 +30,7 @@
       <th>State</th>
       <th>District</th>
       <th>Status</th>
-</tr>
+</thead>
 #{list items:cc, as:'contr'}
 <tr>
       <td>${contr.ElectionCycle}</td>

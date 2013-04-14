@@ -189,8 +189,8 @@ public class CandidateContributions extends Model {
 		if (!recipient.isEmpty()) {
     		if (recipient.equals("__anyone")) {
     			// nothing
-    		} else if (recipient.equals("__curent")) {
-    			//TODO
+    		} else if (recipient.equals("__current")) {
+    			wheres.add("Current = True");
     		} else {
     			String[] recipients = recipient.toLowerCase().split("\\s*,\\s*");
     			StringBuffer recBuf = new StringBuffer("lower(c.RecipientCandidateNameNormalized) IN (");

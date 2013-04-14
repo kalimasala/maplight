@@ -1,5 +1,6 @@
-DROP TABLE Import;
+DROP TABLE IF EXISTS Import;
 CREATE TABLE Import (
+    id BIGINT NOT NULL AUTO_INCREMENT,
     TransactionTypeCode VARCHAR(80),
     TransactionType VARCHAR(80),
     ElectionCycle VARCHAR(80),
@@ -80,7 +81,9 @@ CREATE TABLE Import (
     DonorCandidateOffice VARCHAR(80),
     DonorCandidateDistrict VARCHAR(80),
     DonorCandidateGender VARCHAR(80),
-    UpdateTimestamp VARCHAR(80));
+    UpdateTimestamp VARCHAR(80),
+    PRIMARY KEY (id)
+  );
 
 LOAD DATA LOCAL INFILE 'data.csv' INTO TABLE Import FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES (
     TransactionTypeCode,

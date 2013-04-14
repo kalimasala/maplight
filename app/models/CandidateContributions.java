@@ -178,33 +178,53 @@ public class CandidateContributions extends Model {
 	public static List<CandidateContributions> get(Params params) {
 		String recipient = getOrEmpty(params, "recipient");
 		String donor = getOrEmpty(params, "donor");
+		if (recipient.isEmpty() && donor.isEmpty()) {
+			return new ArrayList<CandidateContributions>();
+		}
+    
 		String date_start = getOrEmpty(params, "date-start");
 		String date_end = getOrEmpty(params, "date-end");
 		List<String> wheres = new LinkedList<String>();
-    	if (!recipient.isEmpty()) {
+		List<Object> finders = new LinkedList<Object>();
+		if (!recipient.isEmpty()) {
     		if (recipient.equals("__anyone")) {
     			// nothing
     		} else if (recipient.equals("__curent")) {
-    			
+    			//TODO
     		} else {
-    			wheres.add("lower(RecipientCandidateNameNormalized) = '" + recipient.toLowerCase() + "'");
+    			String[] recipients = recipient.toLowerCase().split("\\s*,\\s*");
+    			StringBuffer recBuf = new StringBuffer("lower(c.RecipientCandidateNameNormalized) IN (");
+    			boolean isFirst = true;
+    			for (String r : recipients) {
+    				if (!isFirst) { recBuf.append(", ");}
+    				isFirst = false;
+    				recBuf.append("?");
+    				finders.add(r.toLowerCase());
+    			}
+    			recBuf.append(")");
+    			wheres.add(recBuf.toString());
     		}
     	}
     	if (!donor.isEmpty()) {
-    		wheres.add("DonorNameNormalized = '" + donor + "'");
+    		wheres.add("(lower(c.DonorNameNormalized) like ? OR lower(c.DonorOrganization) like ?)");
+    		finders.add(donor);
+    		finders.add(donor);
     	}
     	if (!date_start.isEmpty()) {
-    		wheres.add("TransactionDate >= '" + date_start + "'");
+    		wheres.add("TransactionDate >= ?");
+    		finders.add(date_start);
     	}
     	if (!date_end.isEmpty()) {
-    		wheres.add("TransactionDate <= '" + date_end + "'");
+    		wheres.add("TransactionDate <= ?");
+    		finders.add(date_end);
     	}
     	StringBuffer sql = new StringBuffer();
     	sql.append("SELECT c FROM CandidateContributions c ");
     	if (wheres.size() > 0) {
     		sql.append("\nWHERE ");
-   			sql.append(JavaExtensions.join(wheres, ", "));
+   			sql.append(JavaExtensions.join(wheres, " AND "));
     	}
-    	return find(sql.toString()).fetch();
+    	Logger.info(sql.toString().replace("?", "'%s'"), finders.toArray());
+    	return find(sql.toString(), finders.toArray()).fetch();
 	}
 }

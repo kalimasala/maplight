@@ -40,6 +40,7 @@ public class Application extends Controller {
     }
     
   public static void byDonors() {
-	renderTemplate("Application/CandidateContributions.html", CandidateContributions.get(params));
+	List<CandidateContributions> cc = CandidateContributions.get(params);
+	renderTemplate("Application/CandidateContributions.html", cc);
   }
 }

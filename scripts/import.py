@@ -2,7 +2,7 @@
 
 import urllib
 import json
-import os
+import sys
 
 create_table = """
 DROP TABLE IF EXISTS Import;
@@ -95,7 +95,7 @@ CREATE TABLE Import (
 
 def load_file_string(csv):
   return """
-LOAD DATA LOCAL INFILE '{0}' INTO TABLE Import FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES (
+LOAD DATA LOCAL INFILE '{0}' INTO TABLE Import FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\\n' IGNORE 1 LINES (
     TransactionTypeCode,
     TransactionType,
     ElectionCycle,
@@ -179,15 +179,32 @@ LOAD DATA LOCAL INFILE '{0}' INTO TABLE Import FIELDS TERMINATED BY ',' ENCLOSED
     UpdateTimestamp);
 """.format(csv)
 
-print(create_table)
-print(load_file_string('data.csv'))
-url = 'http://data.maplight.org/FEC/active_incumbents.json'
-data = json.load(urllib.urlopen(url))
+add_current_field = """
+ALTER TABLE Import CHANGE TransactionAmount TransactionAmount Integer;
+ALTER TABLE Import ADD Current Boolean;
+"""
 
-print("UPDATE Import SET Current = False;")
-print("UPDATE Import SET Current = True WHERE RecipientCandidateMLID IN (")
-for person in data:
-  print("\t{0},".format(person['person_id']))
-print("-1);")
-print("ALTER TABLE Import CHANGE TransactionAmount TransactionAmount Integer;")
-print("ALTER TABLE Import ADD Current Boolean;")
+def update_current():
+  url = 'http://data.maplight.org/FEC/active_incumbents.json'
+  data = json.load(urllib.urlopen(url))
+  str = []
+  str.append("UPDATE Import SET Current = False;")
+  str.append("UPDATE Import SET Current = True WHERE RecipientCandidateMLID IN (")
+  for person in data:
+    str.append("\t{0},".format(person['person_id']))
+  str.append("-1);")
+  return "\n".join(str)
+
+swap_tables = """
+DROP TABLE IF EXISTS OldData;
+ALTER TABLE CandidateContributions RENAME OldData;
+ALTER TABLE Import RENAME CandidateContributions;
+"""
+
+file = sys.argv[1] if len(sys.argv) > 1  else "data.csv"
+print(create_table)
+print(load_file_string(file))
+print(add_current_field)
+print(update_current())
+print(swap_tables)
+

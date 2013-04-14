@@ -206,7 +206,8 @@ public class CandidateContributions extends Model {
     		}
     	}
     	if (!donor.isEmpty()) {
-    		wheres.add("c.DonorNameNormalized = ?");
+    		wheres.add("(lower(c.DonorNameNormalized) like ? OR lower(c.DonorOrganization) like ?)");
+    		finders.add(donor);
     		finders.add(donor);
     	}
     	if (!date_start.isEmpty()) {

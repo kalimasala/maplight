@@ -1,3 +1,13 @@
+<div class="row" style="position: absolute; top: 15px; right: 15px;">
+  #{form @Application.listByRecipientDonorYear(), method:'GET' }
+  <input type="hidden" name="donor" value="${donor}" />
+  <input type="hidden" name="recipient" value="${recipient}" />
+  <input type="hidden" name="year" value="${year}" />
+  <input type="hidden" name="download" value="true">
+  <input type="submit" name="dbutton" value="Download CSV File" class="btn">
+  #{/form}
+</div>
+
 <table id="data-table" class="cctable table table-bordered table-striped" style="max-width: initial">
 <tr>
       <th>Election Cycle</th>
@@ -36,11 +46,3 @@
 </tr>
 #{/list}
 </table>
-
-#{form @Application.listByRecipientDonorYear(), method:'GET' }
-<input type="hidden" name="donor" value="${donor}" />
-<input type="hidden" name="recipient" value="${recipient}" />
-<input type="hidden" name="year" value="${year}" />
-<input type="hidden" name="download" value="true">
-<input type="submit" name="dbutton" value="Download CSV File" class="btn">
-#{/form}

@@ -197,6 +197,7 @@ def update_current():
 
 swap_tables = """
 DROP TABLE IF EXISTS OldData;
+CREATE TABLE IF NOT EXISTS CandidateContributions (id integer);
 ALTER TABLE CandidateContributions RENAME OldData;
 ALTER TABLE Import RENAME CandidateContributions;
 """

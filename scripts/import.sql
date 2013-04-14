@@ -82,7 +82,7 @@ CREATE TABLE Import (
     DonorCandidateGender VARCHAR(80),
     UpdateTimestamp VARCHAR(80));
 
-LOAD DATA INFILE 'data.csv' INTO TABLE Import FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES (
+LOAD DATA LOCAL INFILE 'data.csv' INTO TABLE Import FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES (
     TransactionTypeCode,
     TransactionType,
     ElectionCycle,

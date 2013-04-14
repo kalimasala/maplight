@@ -143,7 +143,10 @@ $(function() {
     ).done(function(resp) {
       $(".query-results").html(resp);
       $("#data-table").dataTable({
-        bPaginate: false
+        bPaginate: false,
+        oLanguage: {
+          sSearch: "Filter: "
+        }
       });
     }).fail(function() {
       showError("Error while fetching data!");

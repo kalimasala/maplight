@@ -18,7 +18,6 @@ public class Application extends Controller {
     Object total = null;
     if (cc.size() > 0) {
       total = CandidateContributions.getTotal(params);
-      System.err.println("Total: " + total);
     }
 
     if (download) {

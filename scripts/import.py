@@ -202,10 +202,21 @@ ALTER TABLE CandidateContributions RENAME OldData;
 ALTER TABLE Import RENAME CandidateContributions;
 """
 
+create_indexes = """
+CREATE INDEX candidate_name ON Import (RecipientCandidateNameNormalized);
+CREATE FULLTEXT INDEX donor_name ON Import (DonorNameNormalized);
+CREATE FULLTEXT INDEX donor_org ON Import (DonorOrganization);
+CREATE INDEX donor_state ON Import (DonorState);
+CREATE INDEX donor_city ON Import (DonorCity);
+CREATE INDEX transaction_date ON Import (TransactionDate);
+CREATE INDEX candidate_state ON Import (RecipientCandidateOfficeState);
+"""
+
 file = sys.argv[1] if len(sys.argv) > 1  else "data.csv"
 print(create_table)
 print(load_file_string(file))
 print(add_current_field)
 print(update_current())
+print(create_indexes)
 print(swap_tables)
 

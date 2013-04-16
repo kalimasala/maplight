@@ -15,7 +15,7 @@ public class Application extends Controller {
   public static void byDonors(String donor, String recipient, String date_start, String date_end,
       String location_from, String location_to, boolean download) {
     List<CandidateContributions> cc = CandidateContributions.get(params);
-    Object total = null;
+    Object total = "0";
     if (cc.size() > 0) {
       total = CandidateContributions.getTotal(params);
     }

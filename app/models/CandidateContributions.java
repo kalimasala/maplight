@@ -101,8 +101,7 @@ public class CandidateContributions extends Model {
   public static List<String> getCandidatesNames() {
     return find("SELECT DISTINCT RecipientCandidateNameNormalized FROM CandidateContributions").fetch();
   }
-  
-  //TODO(rkj): cache this
+
   public static List<JsonObject> getCurrentCandidates() {
     String url = "http://data.maplight.org/FEC/active_incumbents.json";
     HttpResponse res = WS.url(url).get();
@@ -129,8 +128,6 @@ public class CandidateContributions extends Model {
     return obj == null ? default_ : obj;
   }
 
-
-  private static final int LIMIT = 100;
   public static List<CandidateContributions> get(Params params) {
     String recipient = getOrEmpty(params, "recipient");
     String donor = getOrEmpty(params, "donor");
@@ -138,13 +135,14 @@ public class CandidateContributions extends Model {
       return new ArrayList<CandidateContributions>();
     }
     WhereData where = constructWhereClauseFromParams(params);
-    String order = getOrDefault(params, "order", "TransactionAmount DESC");
-    where.data.add(order);
-
+//    TODO(rkj): ORDER cannot be parametrized in MySQL, I do not have time
+//      to escape this on my own...
+//    String order = getOrDefault(params, "order", "TransactionAmount DESC");
     String sql = "SELECT c FROM CandidateContributions c\n"
       + where.create()
-      + "\nORDER BY ?";
+      + "\nORDER BY TransactionAmount DESC";
     Logger.info(sql.replace("?", "'%s'"), where.data.toArray());
+    System.err.printf(sql.replace("?", "'%s'") + "\n", where.data.toArray());
     JPAQuery query = find(sql, where.data.toArray());
     return query.fetch(getLimit(params));
   }
@@ -154,9 +152,11 @@ public class CandidateContributions extends Model {
     return find(
         "SELECT SUM(c.TransactionAmount) FROM CandidateContributions c " + where.create(),
         where.data.toArray())
-      .fetch(getLimit(params)).get(0);
+      .fetch(getLimit(params))
+      .get(0);
   }
 
+  private static final int LIMIT = 100;
   private static int getLimit(Params params) {
       if (!getOrEmpty(params, "download").isEmpty()) {
         return Integer.MAX_VALUE;
@@ -188,19 +188,19 @@ public class CandidateContributions extends Model {
       } else if (recipient.equals("__current")) {
         data.append("Current = True", new Object[0]);
       } else {
-        String[] recipients = recipient.toLowerCase().split("\\s*,\\s*");
+        String[] recipients = recipient.split("\\s*,\\s*");
         List<String> dummy = new LinkedList<String>();
         for (String _ : recipients) {
           dummy.add("?");
         }
         data.append(
-          "lower(c.RecipientCandidateNameNormalized) IN (" + JavaExtensions.join(dummy, ", ") + ")",
+          "c.RecipientCandidateNameNormalized IN (" + JavaExtensions.join(dummy, ", ") + ")",
           recipients
         );
       }
     }
     if (!donor.isEmpty()) {
-      String closeDonor = "%" + donor + "%";
+      String closeDonor = donor + "%";
       data.append(
         "(c.DonorNameNormalized like ? OR c.DonorOrganization like ?)",
         closeDonor, closeDonor
@@ -213,11 +213,10 @@ public class CandidateContributions extends Model {
       data.append("TransactionDate <= ?", date_end);
     }
     if (!location_from.isEmpty()) {
-      String lowerLocation = location_from.toLowerCase();
-      data.append("(lower(DonorState) = ? OR lower(DonorCity) = ?)", lowerLocation, lowerLocation);
+      data.append("(DonorState = ? OR DonorCity = ?)", location_from, location_from);
     }
     if (!location_to.isEmpty()) {
-      data.append("lower(RecipientCandidateOfficeState) = ", location_to.toLowerCase());
+      data.append("RecipientCandidateOfficeState = ?", location_to);
     }
     return data;
   }

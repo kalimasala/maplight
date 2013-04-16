@@ -11,7 +11,7 @@ public class Application extends Controller {
   public static void index() {
     render();
   }
-    
+
   public static void byDonors(String donor, String recipient, String date_start, String date_end,
       String location_from, String location_to, boolean download) {
     List<CandidateContributions> cc = CandidateContributions.get(params);

@@ -137,17 +137,16 @@ public class CandidateContributions extends Model {
     if (recipient.isEmpty() && donor.isEmpty()) {
       return new ArrayList<CandidateContributions>();
     }
-    
-    String order = getOrDefault(params, "order", "TransactionAmount DESC");
-
-    StringBuffer sql = new StringBuffer();
     WhereData where = constructWhereClauseFromParams(params);
-    sql.append("SELECT c FROM CandidateContributions c\n");
-    sql.append(where.create());
-    sql.append("\nORDER BY ?");
+    String order = getOrDefault(params, "order", "TransactionAmount DESC");
     where.data.add(order);
-    Logger.info(sql.toString().replace("?", "'%s'"), where.data.toArray());
-    return find(sql.toString(), where.data.toArray()).fetch(getLimit(params));
+
+    String sql = "SELECT c FROM CandidateContributions c\n"
+      + where.create()
+      + "\nORDER BY ?";
+    Logger.info(sql.replace("?", "'%s'"), where.data.toArray());
+    JPAQuery query = find(sql, where.data.toArray());
+    return query.fetch(getLimit(params));
   }
 
   public static Object getTotal(Params params) {
@@ -159,6 +158,9 @@ public class CandidateContributions extends Model {
   }
 
   private static int getLimit(Params params) {
+      if (!getOrEmpty(params, "download").isEmpty()) {
+        return Integer.MAX_VALUE;
+      }
       int limit = LIMIT;
       try {
         limit = Integer.valueOf(getOrEmpty(params, "limit"));
@@ -184,11 +186,11 @@ public class CandidateContributions extends Model {
       if (recipient.equals("__anyone")) {
         // nothing
       } else if (recipient.equals("__current")) {
-        data.append("Current = True", null);
+        data.append("Current = True", new Object[0]);
       } else {
         String[] recipients = recipient.toLowerCase().split("\\s*,\\s*");
         List<String> dummy = new LinkedList<String>();
-        for (String r : recipients) {
+        for (String _ : recipients) {
           dummy.add("?");
         }
         data.append(

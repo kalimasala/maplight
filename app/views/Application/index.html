@@ -3,27 +3,15 @@
 
 
   <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"/>
-  <link rel="stylesheet" type="text/css" href="/public/stylesheets/bootstrap.min.css"/>
+  #{stylesheet 'bootstrap.min.css' /}
+  #{set 'moreStyles'}
   <link rel="stylesheet" type="text/css" href="/public/datatables/css/jquery.dataTables.css"/>
-
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-  <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="/public/js/maplight.js"></script>
-  <script type="text/javascript" src="/public/js/states.js"></script>
+  #{stylesheet 'query.css' /}
+  #{/set}
+  
   <script type="text/javascript" src="/public/datatables/js/jquery.dataTables.min.js"></script>
-
-  <style>
-    .ui-autocomplete-category {
-      font-weight: bold;
-      padding: .2em .4em;
-      margin: .8em 0 .2em;
-      line-height: 1.5;
-    }
-
-    .radio {
-      padding-left: 10px;
-    }
-  </style>
+  #{script 'maplight.js' /}
+  #{script 'states.js' /}
 
 
 #{if flash.error}
@@ -101,14 +89,16 @@
 
       <h3>Run</h3>
       <button type="button" class="run-query btn btn-primary">Run Query</button>
-      <div class="run-query-error" style="display:none;"></div>
 
     </form>
 
 </div>
 
-<div class="span8">
+<div class="span12">
     <h3>Query results</h3>
+    <div class="run-query-error alert alert-error"></div>
+    <div class="query-loading">Loading
+    </div>
     <div class="query-results">
       They'll be here after you run a query.
     </div>

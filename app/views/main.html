@@ -3,37 +3,14 @@
 <head>
   <title>#{get 'title' /}</title>
   <meta charset="${_response_encoding}">
-  <link rel="stylesheet" media="screen" href="@{'/public/css/main.css'}">
-  #{get 'moreStyles' /}
   <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-
-  #{stylesheet 'bootstrap.min.css' /}
-  
   <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"/>
+  #{stylesheet 'bootstrap.min.css' /}
+  #{stylesheet 'maplight.css' /}
+  #{get 'moreStyles' /}
 
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-  <script type="text/javascript" src="/public/js/maplight.js"></script>
-  <script type="text/javascript" src="/public/js/states.js"></script>
-
-	<style>
-		body {
-		width: 100%;
-		}
-
-
-
-		div.masthead {
-			height: 50px;
-			background: url('/public/images/logo.png') no-repeat;
-			background-position: 10px;
-			padding-top: 10px;
-			margin-bottom: 20px;
-			background-color: rgba(156, 199, 156, 0.34);	
-      border-bottom: 1px solid lightgray;
-		}
-		
-	</style>
 </head>
 
 <body>

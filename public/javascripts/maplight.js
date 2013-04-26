@@ -21,11 +21,12 @@ $(function() {
   // });
 
   // Autocomplete multiple, courtesy of http://jqueryui.com/autocomplete/#multiple
-  var enableMultiAutocomplete = function($el, values) {
+  var enableMultiAutocomplete = function(el, values) {
     var split = function( val ) {
       return val.split( /,\s*/ );
     };
-    $el
+    console.log(values);
+    el
       // don't navigate away from the field on tab when selecting an item
       .bind( "keydown", function( event ) {
         if ( event.keyCode === $.ui.keyCode.TAB &&
@@ -36,6 +37,7 @@ $(function() {
       .autocomplete({
         minLength: 0,
         source: function( request, response ) {
+        	console.log("request, response =", request.term, response);
           var extractLast = function( term ) {
             return split( term ).pop();
           };
@@ -63,7 +65,9 @@ $(function() {
 
   $.get("/api/autocomplete/candidates")
     .done(function(candidateNames) {
-      enableMultiAutocomplete($("[autocomplete-type=candidate]"), candidateNames);
+    	var candidate_ac = $("[autocomplete-type=candidate]");
+    	console.log('candidate_ac = ', candidate_ac);
+      enableMultiAutocomplete(candidate_ac, candidateNames);
     });
 
   // $.widget( "custom.catcomplete", $.ui.autocomplete, {
@@ -84,11 +88,14 @@ $(function() {
       source: window.maplight.states
   });
 
+  $(".run-query").unbind("click");
   $(".run-query").click(function() {
     $(".run-query-error").hide();
 
     var showError = function(msg) {
       $(".run-query-error").text(msg);
+      $('.query-results').hide();
+      $('.query-loading').hide();
       $(".run-query-error").show();
     };
 
@@ -137,11 +144,15 @@ $(function() {
     };
 
     console.log(requestData);
+    $('.query-results').hide();
+    $('.query-loading').show();
     $.post(
       "/api/donor",
       requestData
     ).done(function(resp) {
       $(".query-results").html(resp);
+      $('.query-loading').hide();
+      $('.query-results').show();
       $("#data-table").dataTable({
         bPaginate: false,
         oLanguage: {
@@ -151,5 +162,6 @@ $(function() {
     }).fail(function() {
       showError("Error while fetching data!");
     });
+    return false;
   });
 });

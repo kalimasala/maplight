@@ -204,8 +204,8 @@ ALTER TABLE Import RENAME CandidateContributions;
 
 create_indexes = """
 CREATE INDEX candidate_name ON Import (RecipientCandidateNameNormalized);
-CREATE FULLTEXT INDEX donor_name ON Import (DonorNameNormalized);
-CREATE FULLTEXT INDEX donor_org ON Import (DonorOrganization);
+CREATE INDEX donor_name ON Import (DonorNameNormalized);
+CREATE INDEX donor_org ON Import (DonorOrganization);
 CREATE INDEX donor_state ON Import (DonorState);
 CREATE INDEX donor_city ON Import (DonorCity);
 CREATE INDEX transaction_date ON Import (TransactionDate);

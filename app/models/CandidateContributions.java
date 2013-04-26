@@ -139,21 +139,19 @@ public class CandidateContributions extends Model {
 //      to escape this on my own...
 //    String order = getOrDefault(params, "order", "TransactionAmount DESC");
     String sql = "SELECT c FROM CandidateContributions c\n"
-      + where.create()
-      + "\nORDER BY TransactionAmount DESC";
+      + where.create();
     Logger.info(sql.replace("?", "'%s'"), where.data.toArray());
     System.err.printf(sql.replace("?", "'%s'") + "\n", where.data.toArray());
     JPAQuery query = find(sql, where.data.toArray());
     return query.fetch(getLimit(params));
   }
 
-  public static Object getTotal(Params params) {
+  public static int getTotal(Params params) {
     WhereData where = constructWhereClauseFromParams(params);
-    return find(
+    String result = find(
         "SELECT SUM(c.TransactionAmount) FROM CandidateContributions c " + where.create(),
-        where.data.toArray())
-      .fetch(getLimit(params))
-      .get(0);
+        where.data.toArray()).first();
+    return Integer.parseInt(result);
   }
 
   private static final int LIMIT = 100;
@@ -202,8 +200,8 @@ public class CandidateContributions extends Model {
     if (!donor.isEmpty()) {
       String closeDonor = donor + "%";
       data.append(
-        "(c.DonorNameNormalized like ? OR c.DonorOrganization like ?)",
-        closeDonor, closeDonor
+        "(c.DonorNameNormalized = ? OR c.DonorOrganization = ?)",
+        donor, donor
       );
     }
     if (!date_start.isEmpty()) {

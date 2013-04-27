@@ -12,3 +12,6 @@ div.masthead {
     border-bottom: 1px solid lightgray;
 }
 		
+div.cc-total {
+       display: none;
+}

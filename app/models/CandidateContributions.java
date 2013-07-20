@@ -14,7 +14,7 @@ import com.google.gson.JsonObject;
 
 import java.util.*;
 //Test edit
-//my Test Bra`nch
+//my Test Branch
 @Entity
 public class CandidateContributions extends Model {
   public String TransactionTypeCode;

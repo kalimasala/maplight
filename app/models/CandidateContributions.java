@@ -13,7 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.*;
-
+//Test edit
 @Entity
 public class CandidateContributions extends Model {
   public String TransactionTypeCode;
